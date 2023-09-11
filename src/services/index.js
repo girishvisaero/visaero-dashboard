@@ -25,14 +25,7 @@ export const getDashboardData = ({ queryKey }) => {
   const start_date = dates[0];
   const end_date = dates[1];
 
-  if (
-    !start_date ||
-    !end_date ||
-    start_date == "Invalid Date" ||
-    end_date == "Invalid Date"
-  ) {
-    return;
-  }
+  const isValidDates = !start_date || !end_date || start_date == "Invalid Date" || end_date == "Invalid Date";
 
   return axios.post(
     "/visa-admin/getNewDashboardData",

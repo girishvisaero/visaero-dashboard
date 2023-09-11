@@ -17,10 +17,20 @@ const Dashboard = () => {
 
   const dates = [dayjs(value[0]).format(), dayjs(value[1]).format()];
 
+  const start_date = dates[0];
+  const end_date = dates[1];
+
+  const isValidDates =
+    !start_date ||
+    !end_date ||
+    start_date == "Invalid Date" ||
+    end_date == "Invalid Date";
+
   const { data, isLoading } = useQuery({
     enabled:
       !!accountDetails?.data?.data?.data &&
-      accountDetails?.data?.data?.data === "success",
+      accountDetails?.data?.data?.data === "success" &&
+      !isValidDates,
     queryKey: ["dashboard", dates],
     queryFn: getDashboardData,
   });
