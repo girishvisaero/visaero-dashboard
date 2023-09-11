@@ -1,17 +1,19 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
+import ClientError from "../components/AppCrash";
 import Layout from "../layout/Layout";
 import NoLayout from "../layout/NoLayout";
+import Dashboard from "../pages/dashboard/Dashboard";
+import DocumentRuleEngine from "../pages/documentRuleEngine/DocumentRuleEngine";
 import PageNotFound from "../pages/errors/PageNotFound";
 import Login from "../pages/login/Login";
 import Notifications from "../pages/notifications/Notifications";
 import VisaOffers from "../pages/visaOfferConfig/VisaOffers";
-import DocumentRuleEngine from "../pages/documentRuleEngine/DocumentRuleEngine";
-import Dashboard from "../pages/dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement:<ClientError />,
     children: [
       {
         index: true,

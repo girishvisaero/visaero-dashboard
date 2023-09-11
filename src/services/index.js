@@ -19,6 +19,35 @@ export const getNotifications = ({ signal }) => {
   });
 };
 
+export const getDashboardData = ({ queryKey }) => {
+  const [_, dates] = queryKey;
+  // console.log("querykey", dates);
+  const start_date = dates[0];
+  const end_date = dates[1];
+
+  if (
+    !start_date ||
+    !end_date ||
+    start_date == "Invalid Date" ||
+    end_date == "Invalid Date"
+  ) {
+    return;
+  }
+
+  return axios.post(
+    "/visa-admin/getNewDashboardData",
+    // signal,
+    {
+      host: localStorage.getItem("host"),
+      user_id: localStorage.getItem("user_id"),
+      start_date,
+      end_date,
+      // end_date: "2023-09-11T13:43:37.380Z",
+      // start_date: "2023-09-01T13:43:37.380Z",
+    }
+  );
+};
+
 export const verifySession = async ({ signal }) => {
   let session_id = localStorage.getItem("session_id");
   let user_id = localStorage.getItem("user_id");
