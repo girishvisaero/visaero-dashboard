@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
+import React from "react";
+import { RouterProvider } from "react-router-dom";
+import theme from "./config/theme.js";
+import useNetworkHandler from "./hooks/useNetworkProvider.jsx";
+import router from "./routes/router.js";
+import { useEnterpriseAccount } from "./services/globelState.js";
 
-function App() {
+const App = () => {
+  let network = useNetworkHandler();
+  const { data } = useEnterpriseAccount();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
+        <Notifications limit={1} position="top-right" />
+        <RouterProvider router={router} />
+      </MantineProvider>
+    </>
   );
-}
+};
 
 export default App;
