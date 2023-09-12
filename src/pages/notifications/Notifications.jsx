@@ -43,9 +43,9 @@ const Notifications = () => {
         <Text weight={500} size="lg">
           {obj?.title}
         </Text>
-        <Text weight={500} size="sm" color="dimmed">
+       {obj?.issued_on && <Text weight={500} size="sm" color="dimmed">
           {dateFormat(obj?.issued_on)}
-        </Text>
+        </Text>}
       </Card.Section>
       <Text mt="xs" color="dimmed" size="sm" mb="md">
         {obj?.message}

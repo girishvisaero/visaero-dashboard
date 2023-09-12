@@ -121,6 +121,7 @@ const Login = () => {
             w="100%"
             h="100%"
             pos="absolute"
+            top={0}
             p="xl"
             display="flex"
             sx={{ alignItems: "center" }}

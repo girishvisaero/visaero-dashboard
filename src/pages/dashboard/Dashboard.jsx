@@ -34,6 +34,7 @@ const Dashboard = () => {
     queryKey: ["dashboard", dates],
     queryFn: getDashboardData,
   });
+  
 
   return (
     <div>
@@ -42,6 +43,7 @@ const Dashboard = () => {
         <DatePickerInput
           icon={<IconCalendar size="1.1rem" stroke={1.5} />}
           type="range"
+          numberOfColumns={2}
           // label="Select date"
           locale=""
           placeholder="Select dates"
