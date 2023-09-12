@@ -45,3 +45,9 @@ export function paginate(array = [], page_number = 1, page_size = 10) {
   // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
   return array.slice((page_number - 1) * page_size, page_number * page_size);
 }
+
+
+export function priceFormat(x = 0) {
+  if(!x) x = 0
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
