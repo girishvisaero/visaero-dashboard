@@ -28,6 +28,7 @@ import { ReactComponent as HeldIcon } from "../../assets/heldIcon.svg";
 import { ReactComponent as PendingIcon } from "../../assets/pendingIcon.svg";
 import { ReactComponent as ArchiveIcon } from "../../assets/archiveIcon.svg";
 import { ReactComponent as BotIcon } from "../../assets/botIcon.svg";
+import DashboardPieChart from "../../components/DashboardPieChart";
 
 const elements = [
   { position: 6, name: "Carbon" },
@@ -240,6 +241,9 @@ const Dashboard = () => {
             </Card>
           </Grid.Col>
           <Grid.Col span={8}>{statisticCard}</Grid.Col>
+          <Grid.Col span={4}>
+            <DashboardPieChart />
+          </Grid.Col>
           <Grid.Col span={4}>
             <DashboardTopListCard rows={rows} />
           </Grid.Col>
