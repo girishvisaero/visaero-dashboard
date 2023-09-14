@@ -18,6 +18,7 @@ import { loginService } from "../../services";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate } from "react-router-dom";
+import { notifications } from "@mantine/notifications";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -55,6 +56,13 @@ const Login = () => {
         localStorage.setItem("user_id", data.dataobj?._id);
         localStorage.setItem("host", data.dataobj?.host);
         navigate("/");
+      } else {
+        notifications.show({
+          title: "Error",
+          color: "red",
+          autoClose: 3000,
+          message: data?.msg,
+        });
       }
     },
   });

@@ -6,7 +6,7 @@ import {
   Navbar,
   ScrollArea,
   rem,
-  useMantineTheme
+  useMantineTheme,
 } from "@mantine/core";
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -31,7 +31,10 @@ const Layout = () => {
 
   useEffect(() => {
     let isSessionVerified = permission?.data?.data.data === "success";
-    if (permission?.data && !isSessionVerified) navigate("/login");
+    if ((permission?.data && !isSessionVerified) || !localStorage.getItem('session_id')) {
+      navigate("/login");
+      localStorage.removeItem("session_id")
+    }
   }, [permission]);
 
   return (
