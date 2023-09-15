@@ -1,30 +1,30 @@
 import {
   Box,
   Group,
-  Image,
   Text,
   UnstyledButton,
   rem,
-  useMantineTheme,
+  useMantineTheme
 } from "@mantine/core";
 import {
   IconAdjustments,
+  IconAlertCircle,
   IconCalendarStats,
   IconFileAnalytics,
   IconGauge,
   IconLock,
   IconLogout2,
   IconNotes,
+  IconNotification,
   IconPresentationAnalytics,
-  IconUserCircle,
+  IconUserCircle
 } from "@tabler/icons-react";
 import React from "react";
-import LinksGroup from "./LinksGroup";
 import { useNavigate } from "react-router-dom";
-import Logo from "../assets/visaeroLogo.png";
-import { IconNotification } from "@tabler/icons-react";
+import LinksGroup from "./LinksGroup";
 
 const data = [
+  { label: "News & Updates", icon: IconAlertCircle, link: "/news-and-updates" },
   { label: "Notifications", icon: IconNotification, link: "/notifications" },
   { label: "Dashboard", icon: IconGauge, link: "/dashboard" },
   {

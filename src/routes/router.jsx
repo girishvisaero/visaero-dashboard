@@ -21,6 +21,10 @@ const router = createBrowserRouter([
         element: <Navigate to="/dashboard" />,
       },
       {
+        path: "/news-and-updates",
+        element: <Notifications />,
+      },
+      {
         path: "/notifications",
         element: <Notifications />,
       },

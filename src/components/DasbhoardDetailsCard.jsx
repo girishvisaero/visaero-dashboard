@@ -1,35 +1,61 @@
-import { Box, Card, Progress, RingProgress, Table, Text } from "@mantine/core";
+import { Box, Card, Table, Text, useMantineTheme } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import React from "react";
 
 const DashboardDetailsCard = ({ data, headerColumnsKey }) => {
+  const theme = useMantineTheme();
+
+  // list rendered here 👇
   const renderList = (arr) =>
     arr.map((element, i) => (
-      <tr key={i}>
-        <td>{element?._id}</td>
+      <Box
+        component="tr"
+        sx={{
+          "&:hover": {
+            backgroundColor: theme.colors.gray[1],
+          },
+        }}
+        key={i}
+      >
+        <td align="center">{element?._id}</td>
         <td align="center">{element?.value}</td>
-      </tr>
+      </Box>
     ));
 
   let LimitData = (data ?? []).slice(0, 5);
 
-  const rows = renderList(LimitData);
+  const noDataFoundRow = (
+    <td colSpan={2}>
+      <Box component="h1" sx={{ textAlign: "center", color:'#cdc6c6' }} fz={"md"} color="dimmed">
+        Nothing Found
+      </Box>
+    </td>
+  );
+  const rows = LimitData.length > 0 ? renderList(LimitData) : noDataFoundRow;
 
   let moreItems = (data ?? []).length - 5;
 
-  const openViewMore = () => {
+  let completData = () => (
+    <Table>
+      <Box component="thead" sx={{ position: "sticky", top: 0 }}>
+        <tr>{header}</tr>
+      </Box>
+      <tbody>{renderList(data)}</tbody>
+    </Table>
+  );
 
+  const openViewMore = () => {
+    const body = completData();
     modals.open({
-    //   title: "Please confirm your action",
-      children: renderList(data),
+      children: body,
       labels: { confirm: "Confirm", cancel: "Cancel" },
     });
   };
 
   const renderHeader = (headerArr = []) => {
     return headerArr.map((header, i) => (
-      <th key={i}>
-        <Text component="h1" m="0" px="5px">
+      <th key={i} align="center">
+        <Text component="h1" m="0" align="center" px="5px">
           {header}
         </Text>
       </th>
@@ -60,7 +86,12 @@ const DashboardDetailsCard = ({ data, headerColumnsKey }) => {
                     m="0"
                     px="5px"
                   >
-                    <Box sx={{cursor:'pointer'}} onClick={() => openViewMore()}>{moreItems} More</Box>
+                    <Box
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => openViewMore()}
+                    >
+                      {moreItems} More
+                    </Box>
                   </Text>
                 </td>
               </tr>

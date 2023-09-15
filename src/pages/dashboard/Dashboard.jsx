@@ -4,6 +4,7 @@ import {
   Card,
   Divider,
   Grid,
+  Skeleton,
   Table,
   Text,
   useMantineTheme,
@@ -30,14 +31,6 @@ import { ReactComponent as ArchiveIcon } from "../../assets/archiveIcon.svg";
 import { ReactComponent as BotIcon } from "../../assets/botIcon.svg";
 import DashboardPieChart from "../../components/DashboardPieChart";
 import DashboardDetailsCard from "../../components/DasbhoardDetailsCard";
-
-const elements = [
-  { position: 6, name: "Carbon" },
-  { position: 7, name: "Nitrogen" },
-  { position: 39, name: "Yttrium" },
-  { position: 56, name: "Barium" },
-  { position: 58, name: "Cerium" },
-];
 
 const Dashboard = () => {
   const theme = useMantineTheme();
@@ -199,14 +192,23 @@ const Dashboard = () => {
     </Card>
   );
 
+  const otherTopListData = applicationsDetailsStatData.map((obj, i) => (
+    <Grid.Col span={4} key={i}>
+      <DashboardDetailsCard
+        headerColumnsKey={[obj?.block_name, "Applications"]}
+        data={obj?.stats}
+      />
+    </Grid.Col>
+  ));
+
   return (
     <div>
       <AppBar name="Dashboard" />
 
       <Box>
         <Box display="flex" sx={{ justifyContent: "space-between" }}>
-          <Text size="xl" fw={700} mb={"md"} color="dimmed">
-            Statistics
+          <Text size="xl" fw={700} mb={"md"} color="dark">
+            Business Health
           </Text>
           <Box>
             <DatePickerInput
@@ -224,81 +226,92 @@ const Dashboard = () => {
           </Box>
         </Box>
         <Grid>
-          <Grid.Col span={4}>
-            <Card
-              shadow="md"
-              mih={300}
-              bg={theme.primaryColor}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <Text
-                component="h1"
-                sx={{ fontSize: "2rem", color: "#fff" }}
-                align="center"
-              >
-                {priceFormat(businessHealth?.all_applications)}
-              </Text>
-              <Card.Section>
-                <Text
-                  component="h1"
-                  sx={{ fontSize: "1.6rem", color: "#e5e5e5" }}
-                  align="center"
+          {isLoading ? (
+            <BusinessHealthLoading />
+          ) : (
+            <>
+              <Grid.Col span={4}>
+                <Card
+                  shadow="md"
+                  mih={300}
+                  bg={theme.primaryColor}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
                 >
-                  Total Applications
-                </Text>
-              </Card.Section>
-            </Card>
+                  <Text
+                    component="h1"
+                    sx={{ fontSize: "2rem", color: "#fff" }}
+                    align="center"
+                  >
+                    {priceFormat(businessHealth?.all_applications)}
+                  </Text>
+                  <Card.Section>
+                    <Text
+                      component="h1"
+                      sx={{ fontSize: "1.6rem", color: "#e5e5e5" }}
+                      align="center"
+                    >
+                      Total Applications
+                    </Text>
+                  </Card.Section>
+                </Card>
+              </Grid.Col>
+              <Grid.Col span={8}>{statisticCard}</Grid.Col>
+            </>
+          )}
+
+          <Grid.Col span={12}>
+            <Text size="xl" fw={700} color="dark">
+              Statistics
+            </Text>
           </Grid.Col>
-          <Grid.Col span={8}>{statisticCard}</Grid.Col>
-          <Grid.Col span={4}>
-            <Card shadow="md">
-              <DashboardPieChart data={chartData} />
-              <Card.Section>
-                <Text
-                  component="h1"
-                  mb={0}
-                  color={theme.primaryColor}
-                  align="center"
-                >
-                  {applicationsStatData?.all_applications}
-                </Text>
-                <Text
-                  mt={0}
-                  component="h1"
-                  sx={{ fontSize: "1.3rem" }}
-                  color={"dimmed"}
-                  align="center"
-                >
-                  Total Applications
-                </Text>
-              </Card.Section>
-            </Card>
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <DashboardTopListCard
-              header={"Top 5 Destinations"}
-              data={businessHealth?.top_five_destinations}
-            />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <DashboardTopListCard
-              header={"Top 5 Nationalities"}
-              data={businessHealth?.top_five_nationalities}
-            />
-          </Grid.Col>
-          {applicationsDetailsStatData.map((obj, i) => (
-            <Grid.Col span={4} key={i}>
-              <DashboardDetailsCard
-                headerColumnsKey={[obj?.block_name, "Applications"]}
-                data={obj?.stats}
-              />
-            </Grid.Col>
-          ))}
+          {isLoading ? (
+            <StatisticsLoading />
+          ) : (
+            <>
+              <Grid.Col span={4}>
+                <Card shadow="md">
+                  <DashboardPieChart data={chartData} />
+                  <Card.Section>
+                    <Text
+                      component="h1"
+                      mb={0}
+                      color={theme.primaryColor}
+                      align="center"
+                    >
+                      {applicationsStatData?.all_applications}
+                    </Text>
+                    <Text
+                      mt={0}
+                      component="h1"
+                      sx={{ fontSize: "1.3rem" }}
+                      color={"dimmed"}
+                      align="center"
+                    >
+                      Total Applications
+                    </Text>
+                  </Card.Section>
+                </Card>
+              </Grid.Col>
+              <Grid.Col span={4}>
+                <DashboardTopListCard
+                  header={"Top 5 Destinations"}
+                  data={businessHealth?.top_five_destinations}
+                />
+              </Grid.Col>
+              <Grid.Col span={4}>
+                <DashboardTopListCard
+                  header={"Top 5 Nationalities"}
+                  data={businessHealth?.top_five_nationalities}
+                />
+              </Grid.Col>
+            </>
+          )}
+          {otherTopListData}
         </Grid>
       </Box>
     </div>
@@ -306,3 +319,27 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+const BusinessHealthLoading = () => (
+  <>
+    <Grid.Col span={4}>
+      <Skeleton mih={300} />
+    </Grid.Col>
+    <Grid.Col span={8}>
+      <Skeleton mih={300} />
+    </Grid.Col>
+  </>
+);
+const StatisticsLoading = () => (
+  <>
+    <Grid.Col span={4}>
+      <Skeleton mih={300} />
+    </Grid.Col>
+    <Grid.Col span={4}>
+      <Skeleton mih={300} />
+    </Grid.Col>
+    <Grid.Col span={4}>
+      <Skeleton mih={300} />
+    </Grid.Col>
+  </>
+);

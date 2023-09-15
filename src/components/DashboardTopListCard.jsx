@@ -1,19 +1,50 @@
-import { Card, Progress, RingProgress, Table, Text } from "@mantine/core";
+import {
+  Box,
+  Card,
+  Progress,
+  Table,
+  Text,
+  useMantineTheme,
+} from "@mantine/core";
 import React from "react";
 
 const DashboardTopListCard = ({ data, header }) => {
-  const rows = (data ?? []).slice(0, 5).map((element, i, arr) => {
-    let percent = (element.value / arr[0].value) * 100
+  const theme = useMantineTheme();
+
+  const noDataFoundRow = (
+    <td colSpan={2}>
+      <Box
+        component="h1"
+        sx={{ textAlign: "center", color: "#cdc6c6" }}
+        fz={"md"}
+        color="dimmed"
+      >
+        Nothing Found
+      </Box>
+    </td>
+  );
+
+  const renderBody = (data ?? []).slice(0, 5).map((element, i, arr) => {
+    let percent = (element.value / arr[0].value) * 100;
     return (
-      <tr key={i}>
+      <Box
+        component="tr"
+        sx={{
+          "&:hover": {
+            backgroundColor: theme.colors.gray[1],
+          },
+        }}
+        key={i}
+      >
         <td>{element?._id}</td>
         <td>{element?.value}</td>
         <td style={{ width: 100 }}>
           <Progress value={percent ?? 0} />
         </td>
-      </tr>
+      </Box>
     );
   });
+  const rows = data?.length > 0 ? renderBody : noDataFoundRow;
 
   // const rows = getRowsData();
 
