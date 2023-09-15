@@ -23,17 +23,16 @@ const Layout = () => {
   const permission = useGloblePermission(data?.data);
 
   const theme = useMantineTheme();
-  // console.log('pathname', location.pathname)
 
-  // window.addEventListener('click',()=>{
-  //   permission.refetch()
-  // })
 
   useEffect(() => {
     let isSessionVerified = permission?.data?.data.data === "success";
-    if ((permission?.data && !isSessionVerified) || !localStorage.getItem('session_id')) {
+    if (
+      (permission?.data && !isSessionVerified) ||
+      !localStorage.getItem("session_id")
+    ) {
       navigate("/login");
-      localStorage.removeItem("session_id")
+      localStorage.removeItem("session_id");
     }
   }, [permission]);
 

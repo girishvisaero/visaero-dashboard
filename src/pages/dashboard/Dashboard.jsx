@@ -29,6 +29,7 @@ import { ReactComponent as PendingIcon } from "../../assets/pendingIcon.svg";
 import { ReactComponent as ArchiveIcon } from "../../assets/archiveIcon.svg";
 import { ReactComponent as BotIcon } from "../../assets/botIcon.svg";
 import DashboardPieChart from "../../components/DashboardPieChart";
+import DashboardDetailsCard from "../../components/DasbhoardDetailsCard";
 
 const elements = [
   { position: 6, name: "Carbon" },
@@ -64,19 +65,31 @@ const Dashboard = () => {
       !isValidDates,
     queryKey: ["dashboard", dates],
     queryFn: getDashboardData,
+    keepPreviousData: true,
   });
-
-  const rows = (elements ?? []).slice(0, 5).map((element) => (
-    <tr key={element.name}>
-      <td>{element.position}</td>
-      <td>{element.name}</td>
-    </tr>
-  ));
 
   const dataObj = data?.data?.dataobj ?? {};
 
   const businessHealth = dataObj?.business_health ?? {};
   const applicationsStatData = dataObj?.dt_range_statistics ?? {};
+  const applicationsDetailsStatData = dataObj?.dt_range_detailed_stats ?? [];
+
+  const chartData = [
+    { name: "In Draft", value: applicationsStatData?.draft_applications ?? 0 },
+    {
+      name: "Pending Submission",
+      value: applicationsStatData?.pending_submission ?? 0,
+    },
+    {
+      name: "Held Application",
+      value: applicationsStatData?.held_applications ?? 0,
+    },
+    {
+      name: "Archived",
+      value: applicationsStatData?.archived_applications ?? 0,
+    },
+    { name: "Submitted To RPA", value: applicationsStatData?.submitted_to_rpa },
+  ];
 
   //
   const progressData = {
@@ -102,7 +115,6 @@ const Dashboard = () => {
       {
         icon: ArchiveIcon,
         label: "Archived",
-
         total: applicationsStatData?.archived_applications ?? 0,
         action: () => console.log("working"),
       },
@@ -190,25 +202,27 @@ const Dashboard = () => {
   return (
     <div>
       <AppBar name="Dashboard" />
-      <Box>
-        <DatePickerInput
-          icon={<IconCalendar size="1.1rem" stroke={1.5} />}
-          type="range"
-          numberOfColumns={2}
-          // label="Select date"
-          locale=""
-          placeholder="Select dates"
-          value={value}
-          onChange={(d) => setValue(d)}
-          ml="auto"
-          maw={315}
-        />
-      </Box>
-      <Box>
-        <Text size="xl" fw={700} mb={"md"} color="dimmed">
-          Statistics
-        </Text>
 
+      <Box>
+        <Box display="flex" sx={{ justifyContent: "space-between" }}>
+          <Text size="xl" fw={700} mb={"md"} color="dimmed">
+            Statistics
+          </Text>
+          <Box>
+            <DatePickerInput
+              icon={<IconCalendar size="1.1rem" stroke={1.5} />}
+              type="range"
+              numberOfColumns={2}
+              // label="Select date"
+              locale=""
+              placeholder="Select dates"
+              value={value}
+              onChange={(d) => setValue(d)}
+              ml="auto"
+              maw={315}
+            />
+          </Box>
+        </Box>
         <Grid>
           <Grid.Col span={4}>
             <Card
@@ -242,14 +256,49 @@ const Dashboard = () => {
           </Grid.Col>
           <Grid.Col span={8}>{statisticCard}</Grid.Col>
           <Grid.Col span={4}>
-            <DashboardPieChart />
+            <Card shadow="md">
+              <DashboardPieChart data={chartData} />
+              <Card.Section>
+                <Text
+                  component="h1"
+                  mb={0}
+                  color={theme.primaryColor}
+                  align="center"
+                >
+                  {applicationsStatData?.all_applications}
+                </Text>
+                <Text
+                  mt={0}
+                  component="h1"
+                  sx={{ fontSize: "1.3rem" }}
+                  color={"dimmed"}
+                  align="center"
+                >
+                  Total Applications
+                </Text>
+              </Card.Section>
+            </Card>
           </Grid.Col>
           <Grid.Col span={4}>
-            <DashboardTopListCard rows={rows} />
+            <DashboardTopListCard
+              header={"Top 5 Destinations"}
+              data={businessHealth?.top_five_destinations}
+            />
           </Grid.Col>
           <Grid.Col span={4}>
-            <DashboardTopListCard rows={rows} />
+            <DashboardTopListCard
+              header={"Top 5 Nationalities"}
+              data={businessHealth?.top_five_nationalities}
+            />
           </Grid.Col>
+          {applicationsDetailsStatData.map((obj, i) => (
+            <Grid.Col span={4} key={i}>
+              <DashboardDetailsCard
+                headerColumnsKey={[obj?.block_name, "Applications"]}
+                data={obj?.stats}
+              />
+            </Grid.Col>
+          ))}
         </Grid>
       </Box>
     </div>

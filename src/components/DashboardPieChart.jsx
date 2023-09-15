@@ -9,14 +9,15 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const DashboardPieChart = () => {
-  const data = [
-    { name: "In Draft", value: 400 },
-    { name: "Pending Submission", value: 300 },
-    { name: "Held Application", value: 300 },
-    { name: "Archived", value: 200 },
-    { name: "Submitted To RPA", value: 200 },
-  ];
+// const data = [
+//   { name: "In Draft", value: 400 },
+//   { name: "Pending Submission", value: 300 },
+//   { name: "Held Application", value: 300 },
+//   { name: "Archived", value: 200 },
+//   { name: "Submitted To RPA", value: 200 },
+// ];
+
+const DashboardPieChart = ({data}) => {
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#663399"];
 
@@ -50,15 +51,15 @@ const DashboardPieChart = () => {
   return (
     <>
       <Box>
-        <ResponsiveContainer width={350} height={300} className="text-center">
-          <PieChart width={400} height={400}>
+        <ResponsiveContainer width={350} height={200} className="text-center">
+          <PieChart >
             <Legend layout="vertical" verticalAlign="bottom" align="right" />
             <Pie
               data={data}
               cx="50%"
               cy="50%"
               labelLine={false}
-              label={renderCustomizedLabel}
+              // label={renderCustomizedLabel}
               outerRadius={80}
               fill="#8884d8"
               dataKey="value"

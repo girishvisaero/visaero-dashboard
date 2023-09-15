@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Button,
@@ -7,18 +8,16 @@ import {
   PasswordInput,
   Text,
   TextInput,
-  Transition,
-  useMantineTheme,
+  useMantineTheme
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import * as z from "zod";
 import { hash } from "../../lib/utils";
 import { loginService } from "../../services";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { useNavigate } from "react-router-dom";
-import { notifications } from "@mantine/notifications";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -41,13 +40,13 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isDirty },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: { mobile_no: "9021929562", password: "Smart@123" },
   });
 
-  const { mutate, data, isLoading } = useMutation(loginService, {
+  const { mutate, isLoading } = useMutation(loginService, {
     onSuccess: ({ data }) => {
       // console.log(data);
       if (data.data === "success") {
@@ -65,6 +64,7 @@ const Login = () => {
         });
       }
     },
+    onError:()=>{}
   });
 
   const onSubmit = async (data) => {

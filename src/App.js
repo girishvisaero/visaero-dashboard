@@ -6,6 +6,7 @@ import theme from "./config/theme.js";
 import useNetworkHandler from "./hooks/useNetworkProvider.jsx";
 import router from "./routes/router.js";
 import { useEnterpriseAccount } from "./services/globelState.js";
+import { ModalsProvider } from "@mantine/modals";
 
 const App = () => {
   let network = useNetworkHandler();
@@ -15,7 +16,9 @@ const App = () => {
     <>
       <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
         <Notifications limit={1} position="top-right" />
+        <ModalsProvider>
         <RouterProvider router={router} />
+        </ModalsProvider>
       </MantineProvider>
     </>
   );
