@@ -4,38 +4,36 @@ import {
   Text,
   UnstyledButton,
   rem,
-  useMantineTheme
+  useMantineTheme,
 } from "@mantine/core";
 import {
   IconAdjustments,
-  IconAlertCircle,
   IconCalendarStats,
   IconFileAnalytics,
   IconGauge,
   IconLock,
   IconLogout2,
-  IconNotes,
+  IconNews,
   IconNotification,
   IconPresentationAnalytics,
-  IconUserCircle
+  IconUserCircle,
+  IconWorld,
 } from "@tabler/icons-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import LinksGroup from "./LinksGroup";
 
 const data = [
-  { label: "News & Updates", icon: IconAlertCircle, link: "/news-and-updates" },
+  { label: "News & Updates", icon: IconNews, link: "/news-and-updates" },
   { label: "Notifications", icon: IconNotification, link: "/notifications" },
   { label: "Dashboard", icon: IconGauge, link: "/dashboard" },
   {
     label: "Apply New Visa",
-    icon: IconNotes,
+    icon: IconWorld,
     initiallyOpened: true,
     group: [
       { label: "Visa", link: "/new-visa" },
       { label: "Track Visa", link: "/track-visa" },
-      // { label: "Outlook", link: "/outlook" },
-      // { label: "Real time", link: "/real-time" },
     ],
   },
   {
