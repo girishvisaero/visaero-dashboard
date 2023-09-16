@@ -9,7 +9,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import React, { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/visaeroLogo.png";
 import MainLinks, { User } from "../components/MainLinks";
 import {
@@ -19,11 +19,11 @@ import {
 
 const Layout = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isLoading, data } = useEnterpriseAccount();
   const permission = useGloblePermission(data?.data);
 
   const theme = useMantineTheme();
-
 
   useEffect(() => {
     let isSessionVerified = permission?.data?.data.data === "success";
@@ -34,7 +34,9 @@ const Layout = () => {
       navigate("/login");
       localStorage.removeItem("session_id");
     }
-  }, [permission]);
+
+    window.scrollTo(0, 0);
+  }, [permission, location]);
 
   return (
     <>

@@ -1,16 +1,23 @@
 import axios, { noConfig } from "../config/axios";
+import * as API from "./apis";
 
 export const getEnterPriseAccount = ({ signal }) => {
-  return axios.get("/enterprise-admin/getEnterpriseAccountsHostDetails", {
+  return axios.get(API.getEnterpriseAccountHostDetails, {
     signal,
     params: {
-      domain_host: window.location.hostname,
+      // domain_host:  window.location.hostname,
+      domain_host: "cp-att-stage.visaero.com",
     },
   });
 };
 
+export const getNewsAndUpdates = ({ signal }) => {
+  return axios.post(API.getNewsAndUpdates, {
+    user_id: localStorage.getItem("user_id"),
+  });
+};
 export const getNotifications = ({ signal }) => {
-  return axios.get("/visa-admin/getAppNotifications", {
+  return axios.get(API.getNotification, {
     signal,
     params: {
       host: localStorage.getItem("host"),
@@ -25,20 +32,14 @@ export const getDashboardData = ({ queryKey }) => {
   const start_date = dates[0];
   const end_date = dates[1];
 
-  const isValidDates = !start_date || !end_date || start_date == "Invalid Date" || end_date == "Invalid Date";
-
-  // if(isValidDates) return
-
   return axios.post(
-    "/visa-admin/getNewDashboardData",
+    API.getNewDashboard,
     // signal,
     {
       host: localStorage.getItem("host"),
       user_id: localStorage.getItem("user_id"),
       start_date,
       end_date,
-      // end_date: "2023-09-11T13:43:37.380Z",
-      // start_date: "2023-09-01T13:43:37.380Z",
     }
   );
 };
@@ -48,7 +49,7 @@ export const verifySession = async ({ signal }) => {
   let user_id = localStorage.getItem("user_id");
   // console.log("session_id", session_id);
   return axios.post(
-    "/user-admin/verifyAdminUserSession",
+    API.verifyAdminUserSession,
     {
       session_id,
       user_id,
@@ -60,6 +61,5 @@ export const verifySession = async ({ signal }) => {
 };
 
 export const loginService = async (data) => {
-  console.log("mutate data ", data);
-  return noConfig.post("user-admin/login", data);
+  return noConfig.post(API.login, data);
 };

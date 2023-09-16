@@ -48,6 +48,7 @@ const DashboardDetailsCard = ({ data, headerColumnsKey }) => {
     const body = completData();
     modals.open({
       children: body,
+      centered: true,
       labels: { confirm: "Confirm", cancel: "Cancel" },
     });
   };

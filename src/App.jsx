@@ -7,10 +7,18 @@ import theme from "./config/theme.js";
 import useNetworkHandler from "./hooks/useNetworkProvider.jsx";
 import router from "./routes/router.jsx";
 import { useEnterpriseAccount } from "./services/globelState.js";
+import { setupTheme } from "./lib/utils.js";
 
 const App = () => {
   let network = useNetworkHandler();
   const { data } = useEnterpriseAccount();
+
+  if (data?.data?.data === "success") {
+    setupTheme(
+      data?.data?.dataobj?.brand_color,
+      data?.data?.dataobj?.secondary_color
+    );
+  }
 
   return (
     <>

@@ -8,6 +8,7 @@ import PageNotFound from "../pages/errors/PageNotFound";
 import Login from "../pages/login/Login";
 import Notifications from "../pages/notifications/Notifications";
 import VisaOffers from "../pages/visaOfferConfig/VisaOffers";
+import NewsAndUpdates from "../pages/newsAndUpdates/NewsAndUpdates";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/news-and-updates",
-        element: <Notifications />,
+        element: <NewsAndUpdates />,
       },
       {
         path: "/notifications",

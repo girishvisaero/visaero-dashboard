@@ -1,5 +1,6 @@
 import { keys } from "@mantine/utils";
 import dayjs from "dayjs";
+import theme from "../config/theme";
 
 export function hash(string) {
   const utf8 = new TextEncoder().encode(string);
@@ -46,8 +47,30 @@ export function paginate(array = [], page_number = 1, page_size = 10) {
   return array.slice((page_number - 1) * page_size, page_number * page_size);
 }
 
-
 export function priceFormat(x = 0) {
-  if(!x) x = 0
+  if (!x) x = 0;
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+export const setupTheme = (
+  brand_color = "#663785",
+  secondary_color = "#f07821"
+) => {
+  let colorObj = { brand: brand_color, secondary_color };
+  let isRenderFirst = false;
+  // if render second time then exit
+  if (isRenderFirst) return;
+  // check if color exist from enterprise
+  if (brand_color && secondary_color) {
+    let keys = ["brand", "secondary_color"];
+    keys.forEach((key) => {
+      new Array(10).fill("").forEach((element) => {
+        element = colorObj[key];
+        theme.colors[key].push(element);
+        // console.log("element>>", element);
+      });
+    });
+  }
+
+  isRenderFirst = true;
+};

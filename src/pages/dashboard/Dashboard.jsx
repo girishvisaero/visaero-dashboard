@@ -5,9 +5,8 @@ import {
   Divider,
   Grid,
   Skeleton,
-  Table,
   Text,
-  useMantineTheme,
+  useMantineTheme
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { IconCalendar } from "@tabler/icons-react";
@@ -15,28 +14,28 @@ import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import AppBar from "../../components/AppBar";
+import DashboardTopListCard from "../../components/DashboardTopListCard";
 import { priceFormat } from "../../lib/utils";
 import { getDashboardData } from "../../services";
 import { useGloblePermission } from "../../services/globelState";
-import DashboardTopListCard from "../../components/DashboardTopListCard";
 
 // <============= icons ================>
-import { ReactComponent as RpaBotIcon } from "../../assets/rpaIcon.svg";
-import { ReactComponent as RpaProcessIcon } from "../../assets/rpaProcessIcon.svg";
+import { ReactComponent as ArchiveIcon } from "../../assets/archiveIcon.svg";
+import { ReactComponent as BotIcon } from "../../assets/botIcon.svg";
 import { ReactComponent as DecistionTakenIcon } from "../../assets/decisionTakenIcon.svg";
 import { ReactComponent as FileIcon } from "../../assets/fileIcon.svg";
 import { ReactComponent as HeldIcon } from "../../assets/heldIcon.svg";
 import { ReactComponent as PendingIcon } from "../../assets/pendingIcon.svg";
-import { ReactComponent as ArchiveIcon } from "../../assets/archiveIcon.svg";
-import { ReactComponent as BotIcon } from "../../assets/botIcon.svg";
-import DashboardPieChart from "../../components/DashboardPieChart";
+import { ReactComponent as RpaBotIcon } from "../../assets/rpaIcon.svg";
+import { ReactComponent as RpaProcessIcon } from "../../assets/rpaProcessIcon.svg";
 import DashboardDetailsCard from "../../components/DasbhoardDetailsCard";
+import DashboardPieChart from "../../components/DashboardPieChart";
 
 const Dashboard = () => {
   const theme = useMantineTheme();
   const accountDetails = useGloblePermission();
   const [value, setValue] = useState([
-    dayjs(new Date()).toDate(),
+    dayjs(new Date()).set("date", 1).toDate(),
     dayjs(new Date()).add(7, "day").toDate(),
   ]);
 
@@ -161,7 +160,7 @@ const Dashboard = () => {
           alignItems: "center",
         }}
       >
-        <Icon />
+        <Icon  />
         {total}
       </Box>
       <Button onClick={action}>{label}</Button>

@@ -1,6 +1,7 @@
 import {
   Box,
   Card,
+  Image,
   Progress,
   Table,
   Text,
@@ -26,6 +27,12 @@ const DashboardTopListCard = ({ data, header }) => {
 
   const renderBody = (data ?? []).slice(0, 5).map((element, i, arr) => {
     let percent = (element.value / arr[0].value) * 100;
+    let img =
+      `https://s3-ap-southeast-1.amazonaws.com/visaero.assets/flags/${(
+        element?._id ?? ""
+      )
+        .split(" ")
+        .join("_")}.png` ?? "";
     return (
       <Box
         component="tr"
@@ -36,6 +43,14 @@ const DashboardTopListCard = ({ data, header }) => {
         }}
         key={i}
       >
+        <td>
+          <Image
+            sx={{ border: "1px solid " + theme.colors.gray[3], background: theme.colors.gray[1] }}
+            height={15}
+            width={25}
+            src={img}
+          />
+        </td>
         <td>{element?._id}</td>
         <td>{element?.value}</td>
         <td style={{ width: 100 }}>
@@ -54,7 +69,7 @@ const DashboardTopListCard = ({ data, header }) => {
         <Table horizontalSpacing="sm" verticalSpacing="sm">
           <thead>
             <tr>
-              <th colSpan={3}>
+              <th colSpan={4}>
                 <Text component="h1" m="0" px="5px">
                   {header}
                 </Text>
