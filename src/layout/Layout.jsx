@@ -8,7 +8,7 @@ import {
   rem,
   useMantineTheme,
 } from "@mantine/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/visaeroLogo.png";
 import MainLinks, { User } from "../components/MainLinks";
@@ -25,6 +25,8 @@ const Layout = () => {
 
   const theme = useMantineTheme();
 
+  useMemo(() => window.scrollTo(0, 0), [location]);
+
   useEffect(() => {
     let isSessionVerified = permission?.data?.data.data === "success";
     if (
@@ -34,9 +36,7 @@ const Layout = () => {
       navigate("/login");
       localStorage.removeItem("session_id");
     }
-
-    window.scrollTo(0, 0);
-  }, [permission, location]);
+  }, [permission]);
 
   return (
     <>
@@ -67,33 +67,7 @@ const Layout = () => {
                     alignItems: "center",
                   }}
                 >
-                  <Image
-                    src={Logo}
-                    height={50}
-                    width={50}
-                    fit="contain"
-                    // sx={{ objectFit: "contain" }}
-                  />
-                  {/* <IconUserCircle fill={theme.colors.gray[2]} strokeWidth={'1px'} height='50px' width='50px' /> */}
-                  {/* <Text component="h2" m={0} >Girish Chaudhari</Text> */}
-                  {/* <Box
-                    sx={{ display: "flex", justifyContent: "center" }}
-                    mt="sm"
-                  >
-                    <Box>
-                      <Text color="dimmed" size="xs" align="center">
-                        Version 1.2.0
-                      </Text>
-                      <Text
-                        size="sm"
-                        weight={500}
-                        align="center"
-                        color={theme.primaryColor}
-                      >
-                        Powered By Visaero
-                      </Text>
-                    </Box>
-                  </Box> */}
+                  <Image src={Logo} height={50} width={50} fit="contain" />
                 </Box>
               </Navbar.Section>
               <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
