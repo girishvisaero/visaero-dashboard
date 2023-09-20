@@ -59,7 +59,7 @@ export const setupTheme = (
   let colorObj = { brand: brand_color, secondary_color };
   let isRenderFirst = false;
   // if render second time then exit
-  if (isRenderFirst) return;
+  // if (isRenderFirst) return;
   // check if color exist from enterprise
   if (brand_color && secondary_color) {
     let keys = ["brand", "secondary_color"];
@@ -70,6 +70,9 @@ export const setupTheme = (
         // console.log("element>>", element);
       });
     });
+  } else{
+    setupTheme("#f07821", "#663785");
+
   }
 
   isRenderFirst = true;

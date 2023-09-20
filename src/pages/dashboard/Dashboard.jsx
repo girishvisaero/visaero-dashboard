@@ -14,6 +14,8 @@ import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import AppBar from "../../components/AppBar";
+import DashboardDetailsCard from "../../components/DasbhoardDetailsCard";
+import DashboardPieChart from "../../components/DashboardPieChart";
 import DashboardTopListCard from "../../components/DashboardTopListCard";
 import { priceFormat } from "../../lib/utils";
 import { getDashboardData } from "../../services";
@@ -28,8 +30,7 @@ import { ReactComponent as HeldIcon } from "../../assets/heldIcon.svg";
 import { ReactComponent as PendingIcon } from "../../assets/pendingIcon.svg";
 import { ReactComponent as RpaBotIcon } from "../../assets/rpaIcon.svg";
 import { ReactComponent as RpaProcessIcon } from "../../assets/rpaProcessIcon.svg";
-import DashboardDetailsCard from "../../components/DasbhoardDetailsCard";
-import DashboardPieChart from "../../components/DashboardPieChart";
+
 
 const Dashboard = () => {
   const theme = useMantineTheme();

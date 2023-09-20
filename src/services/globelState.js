@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getEnterPriseAccount, verifySession } from ".";
+import { getEnterPriseAccount, ipApi, verifySession } from ".";
 
 export const useEnterpriseAccount = () => {
   return useQuery({
@@ -16,5 +16,15 @@ export const useGloblePermission = (data) => {
     // staleTime: 1000,
     refetchOnWindowFocus: 'always',
     queryFn: verifySession,
+  });
+};
+
+export const useLocalDetails = (data) => {
+  // console.log("data", data);
+  return useQuery({
+    // enabled: !!data?.data && data?.data === "success",
+    queryKey: ["local-details"],
+    // staleTime: 1000,
+    queryFn: ipApi,
   });
 };

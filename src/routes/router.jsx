@@ -9,6 +9,7 @@ import Login from "../pages/login/Login";
 import Notifications from "../pages/notifications/Notifications";
 import VisaOffers from "../pages/visaOfferConfig/VisaOffers";
 import NewsAndUpdates from "../pages/newsAndUpdates/NewsAndUpdates";
+import NewVisa from "../pages/applyNewVisa/NewVisa";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/new-visa",
-        element: <>New Visa</>,
+        element: <NewVisa />,
       },
       {
         path: "/track-visa",

@@ -108,7 +108,6 @@ const Login = () => {
           sx={{
             width: "100%",
             display: "flex",
-            // justifyContent: "space-between",
             flexDirection: "column",
             alignItems: "center",
             gap: 30,
@@ -116,7 +115,6 @@ const Login = () => {
           px="lg"
           bg="#ffffffa1"
           pos="relative"
-          // bg={theme.colors.gray[3]}
         >
           <Box>
             <Image

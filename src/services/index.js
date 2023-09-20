@@ -1,12 +1,12 @@
 import axios, { noConfig } from "../config/axios";
-import * as API from "./apis";
+import * as API from "./api";
 
 export const getEnterPriseAccount = ({ signal }) => {
   return axios.get(API.getEnterpriseAccountHostDetails, {
     signal,
     params: {
-      // domain_host:  window.location.hostname,
-      domain_host: "cp-att-stage.visaero.com",
+      domain_host: window.location.hostname,
+      // domain_host: "cp-att-stage.visaero.com",
     },
   });
 };
@@ -62,4 +62,49 @@ export const verifySession = async ({ signal }) => {
 
 export const loginService = async (data) => {
   return noConfig.post(API.login, data);
+};
+
+export const ipApi = async (data) => {
+  return fetch(API.ipApi).then((res) => res.json());
+};
+
+export const getNationalities = async ({ signal }) => {
+  let host = localStorage.getItem("host");
+  // console.log("session_id", session_id);
+  return axios.get(API.getNationalities, {
+    signal,
+    params: {
+      host,
+    },
+  });
+};
+export const getOrigin = async ({ signal }) => {
+  let host = localStorage.getItem("host");
+  // console.log("session_id", session_id);
+  return axios.get(API.getOrigin, {
+    signal,
+    params: {
+      host,
+    },
+  });
+};
+export const getSupportedCurrencies = async ({ signal }) => {
+  let host = localStorage.getItem("host");
+  // console.log("session_id", session_id);
+  return axios.get(API.getSupportedCurrencies, {
+    signal,
+    params: {
+      host,
+    },
+  });
+};
+export const getTravellingTo = async ({ signal }) => {
+  let host = localStorage.getItem("host");
+  // console.log("session_id", session_id);
+  return axios.get(API.getTravellingto, {
+    signal,
+    params: {
+      host,
+    },
+  });
 };

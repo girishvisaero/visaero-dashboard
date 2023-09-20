@@ -1,4 +1,11 @@
-import { Box, Card, Table, Text, useMantineTheme } from "@mantine/core";
+import {
+  Box,
+  Card,
+  ScrollArea,
+  Table,
+  Text,
+  useMantineTheme,
+} from "@mantine/core";
 import { modals } from "@mantine/modals";
 import React from "react";
 
@@ -26,7 +33,12 @@ const DashboardDetailsCard = ({ data, headerColumnsKey }) => {
 
   const noDataFoundRow = (
     <td colSpan={2}>
-      <Box component="h1" sx={{ textAlign: "center", color:'#cdc6c6' }} fz={"md"} color="dimmed">
+      <Box
+        component="h1"
+        sx={{ textAlign: "center", color: "#cdc6c6" }}
+        fz={"md"}
+        color="dimmed"
+      >
         Nothing Found
       </Box>
     </td>
@@ -49,6 +61,7 @@ const DashboardDetailsCard = ({ data, headerColumnsKey }) => {
     modals.open({
       children: body,
       centered: true,
+      scrollAreaComponent: ScrollArea.Autosize,
       labels: { confirm: "Confirm", cancel: "Cancel" },
     });
   };

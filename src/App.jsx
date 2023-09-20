@@ -1,7 +1,7 @@
-import { MantineProvider } from "@mantine/core";
+import { LoadingOverlay, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
-import React from "react";
+import React, { Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
 import theme from "./config/theme.js";
 import useNetworkHandler from "./hooks/useNetworkProvider.jsx";
@@ -13,12 +13,10 @@ const App = () => {
   let network = useNetworkHandler();
   const { data } = useEnterpriseAccount();
 
-  if (data?.data?.data === "success") {
-    setupTheme(
-      data?.data?.dataobj?.brand_color,
-      data?.data?.dataobj?.secondary_color
-    );
-  }
+  setupTheme(
+    data?.data?.dataobj?.brand_color,
+    data?.data?.dataobj?.secondary_color
+  );
 
   return (
     <>
