@@ -100,11 +100,12 @@ export const getSupportedCurrencies = async ({ signal }) => {
 };
 export const getTravellingTo = async ({ signal }) => {
   let host = localStorage.getItem("host");
+  let user_id = localStorage.getItem("user_id");
   // console.log("session_id", session_id);
-  return axios.get(API.getTravellingto, {
-    signal,
-    params: {
-      host,
-    },
+  return axios.post(API.getTravellingto, {
+    host,
+    nationality: "India",
+    origin: "India",
+    user_id,
   });
 };

@@ -1,5 +1,4 @@
 import { Autocomplete, Group, Image, Text } from "@mantine/core";
-import { IconHash } from "@tabler/icons-react";
 import React, { memo, useMemo, useState } from "react";
 
 const AutoSelectCountry = ({ data = [], defaultCountryName = "" }) => {
