@@ -11,23 +11,22 @@ import {
 } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
-import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import AppBar from "../../components/AppBar";
-import CountiesSelectCard from "../../components/CountiesSelectCard";
-import { getNationalities } from "../../services";
-import { useLocalDetails } from "../../services/globelState";
+import CountriesSelectCard from "../../components/CountriesSelectCard";
 
 const NewVisa = () => {
-  const theme = useMantineTheme();
   const [opened, setOpened] = useState(true);
+
+const getData = data => console.log('data >>', data) 
+  
 
   return (
     <div>
       {/* app bar */}
       <AppBar name="NewVisa" />
       {/* selection dropdown */}
-      <CountiesSelectCard />
+      <CountriesSelectCard getData={getData} />
       {/* visa offers  */}
       <Grid>
         <Grid.Col span={8}>

@@ -1,11 +1,21 @@
 import { Autocomplete, Group, Image, Text } from "@mantine/core";
 import React, { memo, useMemo, useState } from "react";
 
-const AutoSelectCountry = ({ data = [], defaultCountryName = "" }) => {
+const AutoSelectCountry = ({
+  data = [],
+  defaultCountryName = "",
+  label = "",
+  getData,
+  setPayload,
+  setIsCorRequired,
+}) => {
   const [value, setValue] = useState("");
   const [countryObj, setCountryObj] = useState({});
 
   // console.log("data", data);
+
+  let key = (label ?? "").toLocaleLowerCase().split(" ").join("_");
+
   //   filter for Autoselect
   const optionsFilter = (value, item) => {
     let filterItem = item.name
@@ -22,12 +32,25 @@ const AutoSelectCountry = ({ data = [], defaultCountryName = "" }) => {
 
   const handleCountryChange = (e) => {
     const { defaultValue } = e.target;
-    setCountryObj((prev) => {
-      prev = data?.find((o) => o.name === defaultValue);
-      return prev;
-    });
-    // console.log("nationality>>", defaultValue);
+
+    let prev = data?.find((o) => o.name === defaultValue);
+    setPayloadData(prev)
+    setCountryObj((prevState) => prev);
   };
+
+  const setPayloadData = (countryData) => {
+    if (key === "travelling_to" && setIsCorRequired) {
+      setIsCorRequired(!!countryData?.cor_required);
+    }
+    setPayload((prev) => ({ ...prev, [key]: { ...countryData } }));
+  };
+
+  // useMemo(() => {
+  //   if (key === "travelling_to" && setIsCorRequired) {
+  //     setIsCorRequired(!!countryObj?.cor_required);
+  //   }
+  //   setPayload((prev) => ({ ...prev, [key]: { ...countryObj } }));
+  // }, [countryObj]);
 
   useMemo(() => {
     let dfObj = {};
@@ -36,7 +59,7 @@ const AutoSelectCountry = ({ data = [], defaultCountryName = "" }) => {
     } else {
       dfObj = data[0];
     }
-
+    setPayloadData(dfObj);
     setCountryObj({ ...dfObj });
     setValue(dfObj?.name ?? "");
   }, [data, defaultCountryName]);
@@ -60,8 +83,8 @@ const AutoSelectCountry = ({ data = [], defaultCountryName = "" }) => {
         }
       }}
       // onOptionSubmit={value => console.log('value', value)}
-      label="Nationality"
-      placeholder="Select a Nationality"
+      label={label}
+      placeholder={`Select a ${label}`}
       onSelect={handleCountryChange}
       onChange={setValue}
       filter={optionsFilter}
