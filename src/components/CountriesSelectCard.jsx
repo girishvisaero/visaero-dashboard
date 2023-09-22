@@ -7,12 +7,12 @@ import AutoSelectCountry from "./AutoSelectCountry";
 
 const CountriesSelectCard = ({ getData }) => {
   const { data: ipData } = useLocalDetails();
-  const [isCorRequired, setIsCorRequired] = useState(false)
+  const [isCorRequired, setIsCorRequired] = useState(false);
   const [payload, setPayload] = useState({
     nationality: {},
     travelling_to: {},
     country_of_origin: {},
-  })
+  });
 
   const { data: nationalitiesData } = useQuery({
     queryKey: ["nationalities"],
@@ -32,8 +32,7 @@ const CountriesSelectCard = ({ getData }) => {
   const travellingToArr = travellingToData?.data?.dataobj?.data ?? [];
   const originArr = originData?.data?.dataobj?.data ?? [];
 
-
-  useMemo(()=> getData(payload),[payload])
+  useMemo(() => getData(payload), [payload]);
 
   return (
     <Box>
@@ -55,14 +54,14 @@ const CountriesSelectCard = ({ getData }) => {
               setIsCorRequired={setIsCorRequired}
             />
           </Grid.Col>
-          {isCorRequired && <Grid.Col span={4}>
+          <Grid.Col span={4} display={isCorRequired && "none"}>
             <AutoSelectCountry
               defaultCountryName={ipData?.country_name}
               data={originArr ?? []}
               label="Country of Origin"
               setPayload={setPayload}
             />
-          </Grid.Col>}
+          </Grid.Col>
         </Grid>
       </Paper>
     </Box>

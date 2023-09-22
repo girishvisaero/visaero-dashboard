@@ -1,5 +1,5 @@
 import { Autocomplete, Group, Image, Text } from "@mantine/core";
-import React, { memo, useMemo, useState } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 
 const AutoSelectCountry = ({
   data = [],
@@ -34,7 +34,7 @@ const AutoSelectCountry = ({
     const { defaultValue } = e.target;
 
     let prev = data?.find((o) => o.name === defaultValue);
-    setPayloadData(prev)
+    setPayloadData(prev);
     setCountryObj((prevState) => prev);
   };
 
@@ -52,7 +52,7 @@ const AutoSelectCountry = ({
   //   setPayload((prev) => ({ ...prev, [key]: { ...countryObj } }));
   // }, [countryObj]);
 
-  useMemo(() => {
+  useEffect(() => {
     let dfObj = {};
     if (defaultCountryName) {
       dfObj = data.find((o) => o?.name === defaultCountryName);
