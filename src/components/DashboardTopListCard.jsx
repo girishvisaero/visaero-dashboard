@@ -34,18 +34,13 @@ const DashboardTopListCard = ({ data, header }) => {
         .split(" ")
         .join("_")}.png` ?? "";
     return (
-      <Box
-        component="tr"
-        sx={{
-          "&:hover": {
-            backgroundColor: theme.colors.gray[1],
-          },
-        }}
-        key={i}
-      >
+      <Box component="tr" key={i}>
         <td>
           <Image
-            sx={{ border: "1px solid " + theme.colors.gray[3], background: theme.colors.gray[1] }}
+            sx={{
+              border: "1px solid " + theme.colors.gray[3],
+              background: theme.colors.gray[1],
+            }}
             height={15}
             width={25}
             src={img}
@@ -66,7 +61,7 @@ const DashboardTopListCard = ({ data, header }) => {
   return (
     <Card mih={300} withBorder shadow="md">
       <Card.Section>
-        <Table horizontalSpacing="sm" verticalSpacing="sm">
+        <Table highlightOnHover horizontalSpacing="sm" verticalSpacing="sm">
           <thead>
             <tr>
               <th colSpan={4}>

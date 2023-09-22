@@ -15,15 +15,7 @@ const DashboardDetailsCard = ({ data, headerColumnsKey }) => {
   // list rendered here 👇
   const renderList = (arr) =>
     arr.map((element, i) => (
-      <Box
-        component="tr"
-        sx={{
-          "&:hover": {
-            backgroundColor: theme.colors.gray[1],
-          },
-        }}
-        key={i}
-      >
+      <Box component="tr" key={i}>
         <td align="center">{element?._id}</td>
         <td align="center">{element?.value}</td>
       </Box>
@@ -81,7 +73,7 @@ const DashboardDetailsCard = ({ data, headerColumnsKey }) => {
   return (
     <Card mih={300} withBorder shadow="md">
       <Card.Section>
-        <Table horizontalSpacing="sm" verticalSpacing="sm">
+        <Table horizontalSpacing="sm" highlightOnHover verticalSpacing="sm">
           <thead>
             <tr>{header}</tr>
           </thead>

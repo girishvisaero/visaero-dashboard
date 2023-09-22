@@ -6,18 +6,25 @@ import {
   Navbar,
   ScrollArea,
   rem,
-  useMantineTheme,
+  useMantineTheme
 } from "@mantine/core";
 import React, { useEffect, useMemo } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/visaeroLogo.png";
-import MainLinks, { User } from "../components/MainLinks";
+import MainLinks from "../components/MainLinks";
 import {
   useEnterpriseAccount,
   useGloblePermission,
 } from "../services/globelState";
+import UserDetails from "../components/UserDetails";
 
 const Layout = () => {
+  
+  // return (
+  //   <Badge color={idle ? "blue" : "teal"}>
+  //     Current state: {idle ? "Online" : "Away"}
+  //   </Badge>
+  // );
   const navigate = useNavigate();
   const location = useLocation();
   const { isLoading, data } = useEnterpriseAccount();
@@ -76,7 +83,7 @@ const Layout = () => {
                 </Box>
               </Navbar.Section>
               <Navbar.Section>
-                <User />
+                <UserDetails />
               </Navbar.Section>
             </Navbar>
           }

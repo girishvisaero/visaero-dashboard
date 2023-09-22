@@ -54,7 +54,7 @@ const CountriesSelectCard = ({ getData }) => {
               setIsCorRequired={setIsCorRequired}
             />
           </Grid.Col>
-          <Grid.Col span={4} display={isCorRequired && "none"}>
+          <Grid.Col span={4} display={!isCorRequired && "none"}>
             <AutoSelectCountry
               defaultCountryName={ipData?.country_name}
               data={originArr ?? []}

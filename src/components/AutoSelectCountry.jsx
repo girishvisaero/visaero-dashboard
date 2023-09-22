@@ -5,7 +5,6 @@ const AutoSelectCountry = ({
   data = [],
   defaultCountryName = "",
   label = "",
-  getData,
   setPayload,
   setIsCorRequired,
 }) => {

@@ -6,7 +6,7 @@ import {
   Grid,
   Skeleton,
   Text,
-  useMantineTheme
+  useMantineTheme,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { IconCalendar } from "@tabler/icons-react";
@@ -30,7 +30,7 @@ import { ReactComponent as HeldIcon } from "../../assets/heldIcon.svg";
 import { ReactComponent as PendingIcon } from "../../assets/pendingIcon.svg";
 import { ReactComponent as RpaBotIcon } from "../../assets/rpaIcon.svg";
 import { ReactComponent as RpaProcessIcon } from "../../assets/rpaProcessIcon.svg";
-
+import DatePickerComponent from "../../components/DatePickerComponent";
 
 const Dashboard = () => {
   const theme = useMantineTheme();
@@ -51,7 +51,7 @@ const Dashboard = () => {
     start_date == "Invalid Date" ||
     end_date == "Invalid Date";
 
-  const { data, isLoading } = useQuery({
+  const { data, isFetching } = useQuery({
     enabled:
       !!accountDetails?.data?.data?.data &&
       accountDetails?.data?.data?.data === "success" &&
@@ -161,7 +161,7 @@ const Dashboard = () => {
           alignItems: "center",
         }}
       >
-        <Icon  />
+        <Icon />
         {total}
       </Box>
       <Button onClick={action}>{label}</Button>
@@ -211,7 +211,8 @@ const Dashboard = () => {
             Business Health
           </Text>
           <Box>
-            <DatePickerInput
+            <DatePickerComponent value={value} onChange={(d) => setValue(d)} />
+            {/* <DatePickerInput
               icon={<IconCalendar size="1.1rem" stroke={1.5} />}
               type="range"
               numberOfColumns={2}
@@ -222,11 +223,11 @@ const Dashboard = () => {
               onChange={(d) => setValue(d)}
               ml="auto"
               maw={315}
-            />
+            /> */}
           </Box>
         </Box>
         <Grid>
-          {isLoading ? (
+          {isFetching ? (
             <BusinessHealthLoading />
           ) : (
             <>
@@ -269,7 +270,7 @@ const Dashboard = () => {
               Statistics
             </Text>
           </Grid.Col>
-          {isLoading ? (
+          {isFetching ? (
             <StatisticsLoading />
           ) : (
             <>
