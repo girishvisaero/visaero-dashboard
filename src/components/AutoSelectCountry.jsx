@@ -33,7 +33,7 @@ const AutoSelectCountry = ({
     const { defaultValue } = e.target;
 
     let prev = data?.find((o) => o.name === defaultValue);
-    setPayloadData(prev);
+    // setPayloadData(prev);
     setCountryObj((prevState) => prev);
   };
 
@@ -51,6 +51,10 @@ const AutoSelectCountry = ({
   //   setPayload((prev) => ({ ...prev, [key]: { ...countryObj } }));
   // }, [countryObj]);
 
+  useEffect(()=>{
+    setPayloadData(countryObj);
+  },[countryObj?.name])
+
   useEffect(() => {
     let dfObj = {};
     if (defaultCountryName) {
@@ -58,7 +62,8 @@ const AutoSelectCountry = ({
     } else {
       dfObj = data[0];
     }
-    setPayloadData(dfObj);
+    // debugger
+    // setPayloadData(dfObj);
     setCountryObj({ ...dfObj });
     setValue(dfObj?.name ?? "");
   }, [data, defaultCountryName]);

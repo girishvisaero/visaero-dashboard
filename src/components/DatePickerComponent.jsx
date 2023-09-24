@@ -15,6 +15,12 @@ const DatePickerComponent = ({ onChange, value = DEFAULT_VALUE }) => {
         icon={<IconCalendar size="1.1rem" stroke={1.5} />}
         type="range"
         numberOfColumns={2}
+        popoverProps={{
+          shadow: "xl",
+          withArrow: true,
+          arrowPosition:'center',
+          arrowSize: 12,
+        }}
         // label="Select date"
         locale=""
         placeholder="Select dates"
