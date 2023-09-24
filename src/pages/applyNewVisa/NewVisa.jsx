@@ -138,9 +138,6 @@ const Loader = () => {
     for (let i = 0, p = Promise.resolve(); i < msgArr.length; i++) {
       p = p.then(() => delay(1500)).then(() => setState(msgArr[i]));
     }
-    msgArr.forEach(async (element) => {
-      await loadMsg(element);
-    });
   }, []);
 
   return (
