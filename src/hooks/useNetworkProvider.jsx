@@ -32,7 +32,7 @@ const useNetworkHandler = () => {
       const expectedError =
         error.response?.status >= 400 && error.response?.status < 500;
 
-      console.log("error >>", error);
+      // console.log("error >>", error);
       if (error && error?.message !== "canceled") {
         notifications.show({
           title: "Error",

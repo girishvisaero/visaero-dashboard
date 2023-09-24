@@ -1,13 +1,14 @@
-import { LoadingOverlay, MantineProvider } from "@mantine/core";
+import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
-import React, { Suspense } from "react";
+import React from "react";
 import { RouterProvider } from "react-router-dom";
 import theme from "./config/theme.js";
 import useNetworkHandler from "./hooks/useNetworkProvider.jsx";
+import { setupTheme } from "./lib/utils.js";
 import router from "./routes/router.jsx";
 import { useEnterpriseAccount } from "./services/globelState.js";
-import { setupTheme } from "./lib/utils.js";
+import "./App.css"
 
 const App = () => {
   let network = useNetworkHandler();

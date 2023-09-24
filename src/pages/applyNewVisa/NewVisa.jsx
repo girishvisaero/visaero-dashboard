@@ -3,11 +3,15 @@ import {
   Button,
   Divider,
   Grid,
+  LoadingOverlay,
   Paper,
   ScrollArea,
   Select,
+  Text,
+  useMantineTheme,
 } from "@mantine/core";
 
+import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import AppBar from "../../components/AppBar";
 import CountriesSelectCard from "../../components/CountriesSelectCard";
@@ -16,13 +20,13 @@ import FooterButtonCard from "../../components/FooterButtonCard";
 import OfferCard from "../../components/OfferCard";
 import UploadDragImage from "../../components/UploadDragImage";
 import { getSupportedCurrencies } from "../../services";
-import { useQuery } from "@tanstack/react-query";
 import { useLocalDetails } from "../../services/globelState";
 
 const NewVisa = () => {
   const { data: ipData } = useLocalDetails();
   const [currency, setCurrency] = useState("");
   const [isSelected, setIsSelected] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { data: currenciesDataObj } = useQuery({
     queryKey: ["supported-currencies"],
@@ -39,6 +43,11 @@ const NewVisa = () => {
   let currenciesData = currenciesArr.map((c) => c?.currency);
 
   // console.log(currenciesData);
+  const loader = (
+    <Box>
+      <Loader />
+    </Box>
+  );
 
   useEffect(() => {
     setCurrency(ipData?.currency ?? "USD");
@@ -64,6 +73,7 @@ const NewVisa = () => {
               onChange={(c) => setCurrency(c)}
               placeholder="Select a Currency"
               data={currenciesData}
+              nothingFound="Nothing found..."
               searchable
             />
             <DatePickerComponent />
@@ -99,12 +109,44 @@ const NewVisa = () => {
           </Paper>
         </Grid.Col>
       </Grid>
-
+      {/* loading overlay */}
+      <LoadingOverlay visible={isLoading} loader={loader} />
+      {/* footer section */}
       <FooterButtonCard>
-        <Button onClick={() => console.log("working")}>Proceed</Button>
+        <Button onClick={() => setIsLoading(true)}>Proceed</Button>
       </FooterButtonCard>
     </div>
   );
 };
 
 export default NewVisa;
+
+const Loader = () => {
+  const theme = useMantineTheme();
+  const [state, setState] = useState("Please wait...");
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  let msgArr = [
+    "Documents are being extracted...",
+    "Documents are extracted!",
+    "Creating an application...",
+    "Wait a while...",
+  ];
+
+  useEffect(() => {
+    for (let i = 0, p = Promise.resolve(); i < msgArr.length; i++) {
+      p = p.then(() => delay(1500)).then(() => setState(msgArr[i]));
+    }
+    msgArr.forEach(async (element) => {
+      await loadMsg(element);
+    });
+  }, []);
+
+  return (
+    <>
+      <Box component="span" bg={theme.primaryColor} className="custom-loader" />
+      <Text>{state}</Text>
+    </>
+  );
+};
