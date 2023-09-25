@@ -40,7 +40,7 @@ const DashboardDetailsCard = ({ data, headerColumnsKey }) => {
   let moreItems = (data ?? []).length - 5;
 
   let completData = () => (
-    <Table>
+    <Table highlightOnHover>
       <Box component="thead" sx={{ position: "sticky", top: 0 }}>
         <tr>{header}</tr>
       </Box>

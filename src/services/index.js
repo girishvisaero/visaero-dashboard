@@ -98,14 +98,16 @@ export const getSupportedCurrencies = async ({ signal }) => {
     },
   });
 };
-export const getTravellingTo = async ({ signal }) => {
+export const getTravellingTo = async ({ queryKey }) => {
+  const [_, obj] = queryKey;
   let host = localStorage.getItem("host");
   let user_id = localStorage.getItem("user_id");
+  const { nationality, origin } = obj;
   // console.log("session_id", session_id);
   return axios.post(API.getTravellingto, {
     host,
-    nationality: "India",
-    origin: "India",
+    nationality,
+    origin: nationality,
     user_id,
   });
 };

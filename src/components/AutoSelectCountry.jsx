@@ -23,6 +23,7 @@ const AutoSelectCountry = ({
 
     return filterItem;
   };
+
   //   Data modification for label
   const countryData = (data ?? []).map((item) => ({
     ...item,
@@ -31,7 +32,8 @@ const AutoSelectCountry = ({
 
   const handleCountryChange = (e) => {
     const { defaultValue } = e.target;
-
+    // console.log(defaultValue)
+    if (!defaultValue) return;
     let prev = data?.find((o) => o.name === defaultValue);
     // setPayloadData(prev);
     setCountryObj((prevState) => prev);
@@ -44,16 +46,9 @@ const AutoSelectCountry = ({
     setPayload((prev) => ({ ...prev, [key]: { ...countryData } }));
   };
 
-  // useMemo(() => {
-  //   if (key === "travelling_to" && setIsCorRequired) {
-  //     setIsCorRequired(!!countryObj?.cor_required);
-  //   }
-  //   setPayload((prev) => ({ ...prev, [key]: { ...countryObj } }));
-  // }, [countryObj]);
-
-  useEffect(()=>{
+  useEffect(() => {
     setPayloadData(countryObj);
-  },[countryObj?.name])
+  }, [countryObj?.name]);
 
   useEffect(() => {
     let dfObj = {};
@@ -73,7 +68,6 @@ const AutoSelectCountry = ({
       maxDropdownHeight={350}
       value={value ?? ""}
       limit={data?.length ?? 17}
-      highlightQuery
       nothingFound="Nothing found..."
       itemComponent={AutoCompleteItem}
       icon={
@@ -84,11 +78,15 @@ const AutoSelectCountry = ({
       onBlur={() => {
         if (!countryObj || Object.keys(countryObj).length <= 0) {
           setValue("");
+        } else {
+          setValue(countryObj?.name);
         }
       }}
+      onFocus={() => setValue("")}
       // onOptionSubmit={value => console.log('value', value)}
       label={label}
       placeholder={`Select a ${label}`}
+      shadow="md"
       onSelect={handleCountryChange}
       onChange={setValue}
       filter={optionsFilter}
