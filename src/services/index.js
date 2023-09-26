@@ -111,3 +111,20 @@ export const getTravellingTo = async ({ queryKey }) => {
     user_id,
   });
 };
+export const getVisaOffers = async ({ queryKey }) => {
+  // const [_, obj] = queryKey;
+  let host = localStorage.getItem("host");
+  let user_id = localStorage.getItem("user_id");
+  // const { nationality, origin } = obj;
+  // console.log("session_id", session_id);
+  return axios.post(API.getVisaOffers, {
+    currency: "INR",
+    host,
+    managed_by: "master",
+    nationality:"India",
+    travelling_to: "United Arab Emirates",
+    travelling_to_identity: "IND_IND_ARE",
+    type: "apply_new_visa",
+    user_id,
+  });
+};

@@ -11,7 +11,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import AppBar from "../../components/AppBar";
 import CountriesSelectCard from "../../components/CountriesSelectCard";
@@ -19,7 +19,7 @@ import DatePickerComponent from "../../components/DatePickerComponent";
 import FooterButtonCard from "../../components/FooterButtonCard";
 import OfferCard from "../../components/OfferCard";
 import UploadDragImage from "../../components/UploadDragImage";
-import { getSupportedCurrencies } from "../../services";
+import { getSupportedCurrencies, getVisaOffers } from "../../services";
 import { useLocalDetails } from "../../services/globelState";
 
 const NewVisa = () => {
@@ -32,12 +32,17 @@ const NewVisa = () => {
     queryKey: ["supported-currencies"],
     queryFn: getSupportedCurrencies,
   });
+  const { data: visaOffers, mutate, isLoading:isVisaOfferLoading } = useMutation(getVisaOffers);
+  
   // const { data: visaOffers } = useQuery({
   //   queryKey: ["visa-offers"],
   //   queryFn: getSupportedCurrencies,
   // });
 
-  const getData = (data) => console.log("data >>", data);
+  const getData = (data) => {
+    console.log("data >>", data)
+    mutate(curr, data)
+  };
 
   let currenciesArr = currenciesDataObj?.data?.dataobj?.currencies ?? [];
   let currenciesData = currenciesArr.map((c) => c?.currency);
@@ -50,7 +55,8 @@ const NewVisa = () => {
   );
 
   useEffect(() => {
-    setCurrency(ipData?.currency ?? "USD");
+    let curr  = ipData?.currency ?? 'USD'
+    setCurrency(curr);
   }, [ipData]);
 
   const SECTION_HEIGHT = 410;
