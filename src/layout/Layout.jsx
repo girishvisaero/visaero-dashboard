@@ -6,25 +6,23 @@ import {
   Navbar,
   ScrollArea,
   rem,
-  useMantineTheme
+  useMantineTheme,
 } from "@mantine/core";
+import { useNetwork } from "@mantine/hooks";
 import React, { useEffect, useMemo } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/visaeroLogo.png";
 import MainLinks from "../components/MainLinks";
+import UserDetails from "../components/UserDetails";
 import {
   useEnterpriseAccount,
   useGloblePermission,
 } from "../services/globelState";
-import UserDetails from "../components/UserDetails";
+import NetworkError from "../components/NetworkError";
 
 const Layout = () => {
-  
-  // return (
-  //   <Badge color={idle ? "blue" : "teal"}>
-  //     Current state: {idle ? "Online" : "Away"}
-  //   </Badge>
-  // );
+  const networkStatus = useNetwork();
+
   const navigate = useNavigate();
   const location = useLocation();
   const { isLoading, data } = useEnterpriseAccount();
@@ -88,7 +86,11 @@ const Layout = () => {
             </Navbar>
           }
         >
-          <Outlet />
+          {networkStatus.online ? (
+            <Outlet />
+          ) : (
+           <NetworkError/>
+          )}
         </AppShell>
       </Box>
     </>
