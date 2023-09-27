@@ -1,5 +1,5 @@
 import { Autocomplete, Group, Image, Text } from "@mantine/core";
-import React, { memo, useEffect, useMemo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 const AutoSelectCountry = ({
   data = [],

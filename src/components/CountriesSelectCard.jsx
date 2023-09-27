@@ -30,12 +30,11 @@ const CountriesSelectCard = ({ getData }) => {
   const isEnabledTravellingTo =
     !!nationalitiesData &&
     nationalitiesData?.data?.data === "success" &&
-    !!nationality &&
-    !!origin;
+    !!nationality;
 
   const { data: travellingToData } = useQuery({
     enabled: isEnabledTravellingTo,
-    queryKey: ["travellintTo", { nationality, origin }],
+    queryKey: ["travellintTo", { nationality, origin: nationality }],
     queryFn: getTravellingTo,
   });
 
