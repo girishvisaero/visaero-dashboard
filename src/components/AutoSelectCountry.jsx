@@ -7,6 +7,7 @@ const AutoSelectCountry = ({
   label = "",
   setPayload,
   setIsCorRequired,
+  isCorRequired
 }) => {
   const [value, setValue] = useState("");
   const [countryObj, setCountryObj] = useState({});
@@ -36,14 +37,22 @@ const AutoSelectCountry = ({
     if (!defaultValue) return;
     let prev = data?.find((o) => o.name === defaultValue);
     // setPayloadData(prev);
-    setCountryObj((prevState) => prev);
+    setCountryObj(prev);
   };
 
   const setPayloadData = (countryData) => {
     if (key === "travelling_to" && setIsCorRequired) {
       setIsCorRequired(!!countryData?.cor_required);
     }
-    setPayload((prev) => ({ ...prev, [key]: { ...countryData } }));
+    setPayload((prev) => {
+      prev[key] = {...countryData}
+      if(key === 'country_of_origin' && isCorRequired){
+        let a = prev.travelling_to?.identity?.split('_')
+        a[0] = countryData?.cioc
+        prev.travelling_to.identity = a.join('_')
+      }
+      return prev
+    });
   };
 
   useEffect(() => {

@@ -42,7 +42,6 @@ const CountriesSelectCard = ({ getData }) => {
   const travellingToArr = travellingToData?.data?.dataobj?.data ?? [];
   const originArr = originData?.data?.dataobj?.data ?? [];
 
-  console.log("rerenderd");
 
   useEffect(() => getData(payload), [payload]);
 
@@ -72,6 +71,7 @@ const CountriesSelectCard = ({ getData }) => {
               data={originArr ?? []}
               label="Country of Origin"
               setPayload={setPayload}
+              isCorRequired={isCorRequired}
             />
           </Grid.Col>
         </Grid>
