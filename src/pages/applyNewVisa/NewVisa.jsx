@@ -21,6 +21,7 @@ import OfferCard from "../../components/OfferCard";
 import UploadDragImage from "../../components/UploadDragImage";
 import { getSupportedCurrencies, getVisaOffers } from "../../services";
 import { useLocalDetails } from "../../services/globelState";
+import dayjs from "dayjs";
 
 const NewVisa = () => {
   const { data: ipData } = useLocalDetails();
@@ -28,6 +29,11 @@ const NewVisa = () => {
   const [isSelected, setIsSelected] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [visaOfferPayload, setVisaOfferPayload] = useState({});
+
+  const [value, setValue] = useState([
+    dayjs(new Date()).set("date", 1).toDate(),
+    dayjs(new Date()).add(7, "day").toDate(),
+  ]);
 
   const { data: currenciesDataObj } = useQuery({
     queryKey: ["supported-currencies"],
@@ -42,7 +48,7 @@ const NewVisa = () => {
   const allValueExists = (obj) => Object.keys(obj).every((key) => !!obj[key]);
 
   const getData = (data) => {
-    console.log("data >>", data);
+    // console.log("data >>", data);
     const natinoality_obj = data?.nationality;
     const travelling_to_obj = data?.travelling_to;
     let obj = {
@@ -61,18 +67,13 @@ const NewVisa = () => {
 
   let currenciesArr = currenciesDataObj?.data?.dataobj?.currencies ?? [];
   let currenciesData = currenciesArr.map((c) => c?.currency);
+  let visaOffersData = (visaOffers?.data?.dataobj ?? [])?.filter(o => o?.status === 'active') ?? []
 
 const handleCurrencyChange = currency => {
    setCurrency(currency)
    setVisaOfferPayload(prev => ({...prev, currency}))
 }
 
-  // console.log(currenciesData);
-  const loader = (
-    <Box>
-      <Loader />
-    </Box>
-  );
 
   useEffect(() => {
     let curr = ipData?.currency ?? "USD";
@@ -86,6 +87,13 @@ const handleCurrencyChange = currency => {
   }, [visaOfferPayload]);
 
   const SECTION_HEIGHT = 410;
+
+  const loader = (
+    <Box>
+      <Loader />
+    </Box>
+  );
+
   return (
     <div>
       {/* app bar */}
@@ -108,20 +116,21 @@ const handleCurrencyChange = currency => {
               nothingFound="Nothing found..."
               searchable
             />
-            <DatePickerComponent />
+            <DatePickerComponent value={value} onChange={(d) => setValue(d)} />
           </Box>
           <Paper radius="md" shadow="sm">
             <ScrollArea type="always" offsetScrollbars h={SECTION_HEIGHT}>
               <Grid p={"sm"}>
-                {new Array(7).fill("").map((obj, i) => (
+                {visaOffersData?.length > 0 ? visaOffersData?.map((obj, i) => (
                   <Grid.Col span={6} key={i}>
                     <OfferCard
                       index={i}
                       isSelected={isSelected}
+                      data={obj}
                       setIsSelected={setIsSelected}
                     />
                   </Grid.Col>
-                ))}
+                )):<Grid.Col span={12}>Nothing Found!</Grid.Col>}
               </Grid>
             </ScrollArea>
           </Paper>

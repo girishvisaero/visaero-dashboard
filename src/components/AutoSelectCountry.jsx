@@ -36,7 +36,6 @@ const AutoSelectCountry = ({
     // console.log(defaultValue)
     if (!defaultValue) return;
     let prev = data?.find((o) => o.name === defaultValue);
-    // setPayloadData(prev);
     setCountryObj(prev);
   };
 
@@ -45,14 +44,16 @@ const AutoSelectCountry = ({
       setIsCorRequired(!!countryData?.cor_required);
     }
     setPayload((prev) => {
-      prev[key] = {...countryData}
+      let payload = {...prev}
+      payload[key] = {...countryData}
       if(key === 'country_of_origin' && isCorRequired){
-        let a = prev.travelling_to?.identity?.split('_')
+        let a = payload.travelling_to?.identity?.split('_')
         a[0] = countryData?.cioc
-        prev.travelling_to.identity = a.join('_')
+        payload.travelling_to.identity = a.join('_')
       }
-      return prev
+      return payload
     });
+
   };
 
   useEffect(() => {
@@ -66,8 +67,6 @@ const AutoSelectCountry = ({
     } else {
       dfObj = data[0];
     }
-    // debugger
-    // setPayloadData(dfObj);
     setCountryObj({ ...dfObj });
     setValue(dfObj?.name ?? "");
   }, [data, defaultCountryName]);
@@ -91,7 +90,7 @@ const AutoSelectCountry = ({
           setValue(countryObj?.name);
         }
       }}
-      onFocus={() => setValue("")}
+      onDropdownOpen={() => setValue("")}
       // onOptionSubmit={value => console.log('value', value)}
       label={label}
       placeholder={`Select a ${label}`}
