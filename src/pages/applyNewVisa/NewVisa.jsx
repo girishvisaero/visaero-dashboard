@@ -41,7 +41,7 @@ const NewVisa = () => {
 
   const getData = (data) => {
     console.log("data >>", data)
-    mutate(curr, data)
+    mutate(currency, data)
   };
 
   let currenciesArr = currenciesDataObj?.data?.dataobj?.currencies ?? [];
