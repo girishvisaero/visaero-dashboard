@@ -27,25 +27,45 @@ const NewVisa = () => {
   const [currency, setCurrency] = useState("");
   const [isSelected, setIsSelected] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [visaOfferPayload, setVisaOfferPayload] = useState({});
 
   const { data: currenciesDataObj } = useQuery({
     queryKey: ["supported-currencies"],
     queryFn: getSupportedCurrencies,
   });
-  const { data: visaOffers, mutate, isLoading:isVisaOfferLoading } = useMutation(getVisaOffers);
-  
-  // const { data: visaOffers } = useQuery({
-  //   queryKey: ["visa-offers"],
-  //   queryFn: getSupportedCurrencies,
-  // });
+  const {
+    data: visaOffers,
+    mutate,
+    isLoading: isVisaOfferLoading,
+  } = useMutation(getVisaOffers);
+
+  const allValueExists = (obj) => Object.keys(obj).every((key) => !!obj[key]);
 
   const getData = (data) => {
-    console.log("data >>", data)
-    mutate(curr, data)
+    console.log("data >>", data);
+    const natinoality_obj = data?.nationality;
+    const travelling_to_obj = data?.travelling_to;
+    let obj = {
+      managed_by: travelling_to_obj?.managed_by,
+      nationality: natinoality_obj?.name,
+      travelling_to: travelling_to_obj?.name,
+      travelling_to_identity: travelling_to_obj?.identity,
+      type: "apply_new_visa",
+      currency,
+    };
+
+    if (allValueExists(obj)) {
+      setVisaOfferPayload({ ...obj });
+    }
   };
 
   let currenciesArr = currenciesDataObj?.data?.dataobj?.currencies ?? [];
   let currenciesData = currenciesArr.map((c) => c?.currency);
+
+const handleCurrencyChange = currency => {
+   setCurrency(currency)
+   setVisaOfferPayload(prev => ({...prev, currency}))
+}
 
   // console.log(currenciesData);
   const loader = (
@@ -55,9 +75,15 @@ const NewVisa = () => {
   );
 
   useEffect(() => {
-    let curr  = ipData?.currency ?? 'USD'
+    let curr = ipData?.currency ?? "USD";
     setCurrency(curr);
   }, [ipData]);
+
+  useEffect(() => {
+    if (Object.keys(visaOfferPayload).length > 0) {
+      mutate(visaOfferPayload);
+    }
+  }, [visaOfferPayload]);
 
   const SECTION_HEIGHT = 410;
   return (
@@ -76,7 +102,7 @@ const NewVisa = () => {
           >
             <Select
               value={currency}
-              onChange={(c) => setCurrency(c)}
+              onChange={handleCurrencyChange}
               placeholder="Select a Currency"
               data={currenciesData}
               nothingFound="Nothing found..."
