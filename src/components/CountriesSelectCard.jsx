@@ -30,12 +30,11 @@ const CountriesSelectCard = ({ getData }) => {
   const isEnabledTravellingTo =
     !!nationalitiesData &&
     nationalitiesData?.data?.data === "success" &&
-    !!nationality &&
-    !!origin;
+    !!nationality;
 
   const { data: travellingToData } = useQuery({
     enabled: isEnabledTravellingTo,
-    queryKey: ["travellintTo", { nationality, origin }],
+    queryKey: ["travellintTo", { nationality, origin: nationality }],
     queryFn: getTravellingTo,
   });
 
@@ -43,7 +42,6 @@ const CountriesSelectCard = ({ getData }) => {
   const travellingToArr = travellingToData?.data?.dataobj?.data ?? [];
   const originArr = originData?.data?.dataobj?.data ?? [];
 
-  console.log("rerenderd");
 
   useEffect(() => getData(payload), [payload]);
 
@@ -73,6 +71,7 @@ const CountriesSelectCard = ({ getData }) => {
               data={originArr ?? []}
               label="Country of Origin"
               setPayload={setPayload}
+              isCorRequired={isCorRequired}
             />
           </Grid.Col>
         </Grid>

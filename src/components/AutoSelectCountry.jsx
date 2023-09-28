@@ -1,5 +1,5 @@
 import { Autocomplete, Group, Image, Text } from "@mantine/core";
-import React, { memo, useEffect, useMemo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 const AutoSelectCountry = ({
   data = [],
@@ -7,6 +7,7 @@ const AutoSelectCountry = ({
   label = "",
   setPayload,
   setIsCorRequired,
+  isCorRequired
 }) => {
   const [value, setValue] = useState("");
   const [countryObj, setCountryObj] = useState({});
@@ -35,15 +36,24 @@ const AutoSelectCountry = ({
     // console.log(defaultValue)
     if (!defaultValue) return;
     let prev = data?.find((o) => o.name === defaultValue);
-    // setPayloadData(prev);
-    setCountryObj((prevState) => prev);
+    setCountryObj(prev);
   };
 
   const setPayloadData = (countryData) => {
     if (key === "travelling_to" && setIsCorRequired) {
       setIsCorRequired(!!countryData?.cor_required);
     }
-    setPayload((prev) => ({ ...prev, [key]: { ...countryData } }));
+    setPayload((prev) => {
+      let payload = {...prev}
+      payload[key] = {...countryData}
+      if(key === 'country_of_origin' && isCorRequired){
+        let a = payload.travelling_to?.identity?.split('_')
+        a[0] = countryData?.cioc
+        payload.travelling_to.identity = a.join('_')
+      }
+      return payload
+    });
+
   };
 
   useEffect(() => {
@@ -57,8 +67,6 @@ const AutoSelectCountry = ({
     } else {
       dfObj = data[0];
     }
-    // debugger
-    // setPayloadData(dfObj);
     setCountryObj({ ...dfObj });
     setValue(dfObj?.name ?? "");
   }, [data, defaultCountryName]);
@@ -82,7 +90,7 @@ const AutoSelectCountry = ({
           setValue(countryObj?.name);
         }
       }}
-      onFocus={() => setValue("")}
+      onDropdownOpen={() => setValue("")}
       // onOptionSubmit={value => console.log('value', value)}
       label={label}
       placeholder={`Select a ${label}`}

@@ -112,7 +112,7 @@ export const getTravellingTo = async ({ queryKey }) => {
   });
 };
 export const getVisaOffers = async (data) => {
-  // const {managed_by,nationality, travelling_to, travelling_to_identity, type, currency } = data
+  // console.log(data)
   let host = localStorage.getItem("host");
   let user_id = localStorage.getItem("user_id");
   return axios.post(API.getVisaOffers, {
