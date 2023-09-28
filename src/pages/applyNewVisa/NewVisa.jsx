@@ -7,6 +7,7 @@ import {
   Paper,
   ScrollArea,
   Select,
+  Skeleton,
   Text,
   useMantineTheme,
 } from "@mantine/core";
@@ -22,6 +23,7 @@ import UploadDragImage from "../../components/UploadDragImage";
 import { getSupportedCurrencies, getVisaOffers } from "../../services";
 import { useLocalDetails } from "../../services/globelState";
 import dayjs from "dayjs";
+import DocumentsUploadCard from "../../components/DocumentsUploadCard";
 
 const NewVisa = () => {
   const { data: ipData } = useLocalDetails();
@@ -67,13 +69,14 @@ const NewVisa = () => {
 
   let currenciesArr = currenciesDataObj?.data?.dataobj?.currencies ?? [];
   let currenciesData = currenciesArr.map((c) => c?.currency);
-  let visaOffersData = (visaOffers?.data?.dataobj ?? [])?.filter(o => o?.status === 'active') ?? []
+  let visaOffersData =
+    (visaOffers?.data?.dataobj ?? [])?.filter((o) => o?.status === "active") ??
+    [];
 
-const handleCurrencyChange = currency => {
-   setCurrency(currency)
-   setVisaOfferPayload(prev => ({...prev, currency}))
-}
-
+  const handleCurrencyChange = (currency) => {
+    setCurrency(currency);
+    setVisaOfferPayload((prev) => ({ ...prev, currency }));
+  };
 
   useEffect(() => {
     let curr = ipData?.currency ?? "USD";
@@ -87,6 +90,12 @@ const handleCurrencyChange = currency => {
   }, [visaOfferPayload]);
 
   const SECTION_HEIGHT = 410;
+
+  const loadingCards = new Array(8).fill("").map((x, i) => (
+    <Grid.Col span={6} key={i}>
+      <Skeleton height={210} visible />
+    </Grid.Col>
+  ));
 
   const loader = (
     <Box>
@@ -121,33 +130,28 @@ const handleCurrencyChange = currency => {
           <Paper radius="md" shadow="sm">
             <ScrollArea type="always" offsetScrollbars h={SECTION_HEIGHT}>
               <Grid p={"sm"}>
-                {visaOffersData?.length > 0 ? visaOffersData?.map((obj, i) => (
-                  <Grid.Col span={6} key={i}>
-                    <OfferCard
-                      index={i}
-                      isSelected={isSelected}
-                      data={obj}
-                      setIsSelected={setIsSelected}
-                    />
-                  </Grid.Col>
-                )):<Grid.Col span={12}>Nothing Found!</Grid.Col>}
+                {isVisaOfferLoading ? (
+                  loadingCards
+                ) : visaOffersData?.length > 0 ? (
+                  visaOffersData?.map((obj, i) => (
+                    <Grid.Col span={6} key={i}>
+                      <OfferCard
+                        index={i}
+                        isSelected={isSelected}
+                        data={obj}
+                        setIsSelected={setIsSelected}
+                      />
+                    </Grid.Col>
+                  ))
+                ) : (
+                  <Grid.Col span={12}>Nothing Found!</Grid.Col>
+                )}
               </Grid>
             </ScrollArea>
           </Paper>
         </Grid.Col>
         <Grid.Col span={4}>
-          <Paper shadow="sm" radius="md">
-            <ScrollArea mx="-xs" type="always" p="xl" h={SECTION_HEIGHT + 50}>
-              <Box>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum
-                iusto a cum labore dolorum accusamus adipisci praesentium
-                quibusdam velit modi omnis veritatis, repudiandae, soluta
-                numquam eveniet molestiae. Officiis, harum quaerat?
-              </Box>
-              <Divider my="sm" variant="dashed" />
-              <UploadDragImage />
-            </ScrollArea>
-          </Paper>
+          <DocumentsUploadCard cardHeight={SECTION_HEIGHT} />
         </Grid.Col>
       </Grid>
       {/* loading overlay */}
@@ -188,3 +192,7 @@ const Loader = () => {
     </>
   );
 };
+
+// const OfferCardLoading = () => {
+//   return ;
+// };
