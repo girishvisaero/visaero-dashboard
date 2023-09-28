@@ -8,6 +8,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCircleChevronRight } from "@tabler/icons-react";
+import { hexToRgb } from "../lib/utils";
 
 const OfferCard = ({ isSelected, setIsSelected, index, data }) => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -24,10 +25,45 @@ const OfferCard = ({ isSelected, setIsSelected, index, data }) => {
   } ${is_insurance ? "+ Insurance" : ""}`.trim();
 
   const insuranceItem = (obj, i) => (
-    <Text color="dimmed" mb=".5rem" key={i}>
+    <Text color="dimmed" mb=".3rem" key={i}>
       {obj?.name}: {obj?.value}{" "}
     </Text>
   );
+
+  const ribinBG = (color) => {
+    let r = hexToRgb(color)?.r;
+    let g = hexToRgb(color)?.g;
+    let b = hexToRgb(color)?.b;
+    return `rgb(${r}, ${g}, ${b})`;
+  };
+
+  const insuranceRibin = is_insurance && (
+    <Box
+      bg={theme.primaryColor}
+      px={"sm"}
+      sx={{
+        width: "60%",
+        position: "relative",
+        color: "#fff",
+        fontSize: "0.7rem",
+        fontWeight: 400,
+        "&:before": {
+          content: `""`,
+          background: ribinBG(theme.colors[theme.primaryColor][0] + "40"),
+          position: "absolute",
+          width: "15px",
+          height: "100%",
+          top: "0",
+          right: "0",
+          borderRadius: "100px 0 0 100px",
+          clipPath: "polygon(100% 0,0 50%,100% 100%)",
+        },
+      }}
+    >
+      {insuranceDetails?.insurance_title}
+    </Box>
+  );
+
   return (
     <>
       <Paper
@@ -47,13 +83,8 @@ const OfferCard = ({ isSelected, setIsSelected, index, data }) => {
         }}
         onClick={() => setIsSelected(index)}
       >
-        <Box
-          bg={theme.colors[theme.primaryColor][0] + "40"}
-          fw={500}
-          fz="sm"
-          p="sm"
-        >
-          <Box>
+        <Box bg={theme.colors[theme.primaryColor][0] + "40"} fw={500} fz="sm">
+          <Box p="sm">
             <Box
               sx={{ display: "flex", justifyContent: "space-between", gap: 15 }}
             >
@@ -64,15 +95,16 @@ const OfferCard = ({ isSelected, setIsSelected, index, data }) => {
               </Box>
             </Box>
           </Box>
+          {insuranceRibin}
         </Box>
         <Box p="sm" fz={".7rem"} mb="45px">
-          <Text color="dimmed" mb=".5rem">
+          <Text color="dimmed" mb=".3rem">
             Visa Validity: {visaDetails?.visa_validity}
           </Text>
-          <Text color="dimmed" mb=".5rem">
+          <Text color="dimmed" mb=".3rem">
             Stay Validity: {visaDetails?.stay_validity}
           </Text>
-          <Text color="dimmed" mb=".5rem">
+          <Text color="dimmed" mb=".3rem">
             Processing Time: {visaDetails?.processing_time}
           </Text>
           {is_insurance &&

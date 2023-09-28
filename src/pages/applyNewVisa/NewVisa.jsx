@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Divider,
   Grid,
   LoadingOverlay,
   Paper,
@@ -9,21 +8,20 @@ import {
   Select,
   Skeleton,
   Text,
-  useMantineTheme,
+  useMantineTheme
 } from "@mantine/core";
 
-import { useQuery, useMutation } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import React, { useCallback, useEffect, useState } from "react";
 import AppBar from "../../components/AppBar";
 import CountriesSelectCard from "../../components/CountriesSelectCard";
 import DatePickerComponent from "../../components/DatePickerComponent";
+import DocumentsUploadCard from "../../components/DocumentsUploadCard";
 import FooterButtonCard from "../../components/FooterButtonCard";
 import OfferCard from "../../components/OfferCard";
-import UploadDragImage from "../../components/UploadDragImage";
 import { getSupportedCurrencies, getVisaOffers } from "../../services";
 import { useLocalDetails } from "../../services/globelState";
-import dayjs from "dayjs";
-import DocumentsUploadCard from "../../components/DocumentsUploadCard";
 
 const NewVisa = () => {
   const { data: ipData } = useLocalDetails();
@@ -78,6 +76,8 @@ const NewVisa = () => {
     setVisaOfferPayload((prev) => ({ ...prev, currency }));
   };
 
+  const isOffersLoading = useCallback((o)=> o,[]) 
+
   useEffect(() => {
     let curr = ipData?.currency ?? "USD";
     setCurrency(curr);
@@ -130,7 +130,7 @@ const NewVisa = () => {
           <Paper radius="md" shadow="sm">
             <ScrollArea type="always" offsetScrollbars h={SECTION_HEIGHT}>
               <Grid p={"sm"}>
-                {isVisaOfferLoading ? (
+                {isOffersLoading ? (
                   loadingCards
                 ) : visaOffersData?.length > 0 ? (
                   visaOffersData?.map((obj, i) => (
