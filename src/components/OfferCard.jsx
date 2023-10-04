@@ -8,7 +8,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCircleChevronRight } from "@tabler/icons-react";
-import { hexToRgb } from "../lib/utils";
+import { hexToRGB, hexToRgb } from "../lib/utils";
 
 const OfferCard = ({ isSelected, setIsSelected, index, data }) => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -47,9 +47,10 @@ const OfferCard = ({ isSelected, setIsSelected, index, data }) => {
         color: "#fff",
         fontSize: "0.7rem",
         fontWeight: 400,
+        bottom:7.5,
         "&:before": {
           content: `""`,
-          background: ribinBG(theme.colors[theme.primaryColor][0] + "40"),
+          background: hexToRGB(theme.colors[theme.primaryColor][0] + "40"),
           position: "absolute",
           width: "15px",
           height: "100%",

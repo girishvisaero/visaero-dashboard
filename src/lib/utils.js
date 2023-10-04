@@ -87,3 +87,32 @@ export function hexToRgb(hex) {
     b: parseInt(result[3], 16)
   } : null;
 }
+
+
+export function hexToRGB(hex) {
+  // Remove the '#' character if it exists
+  hex = hex.replace(/^#/, '');
+
+  // Check if the hex code is 8 digits
+  if (hex.length !== 8) {
+    throw new Error('Invalid 8-digit hex color code');
+  }
+
+  // Extract individual components
+  const redHex = hex.slice(2, 4);
+  const greenHex = hex.slice(4, 6);
+  const blueHex = hex.slice(6, 8);
+
+  // Convert hex values to decimal
+  const red = parseInt(redHex, 16);
+  const green = parseInt(greenHex, 16);
+  const blue = parseInt(blueHex, 16);
+
+  // Return the RGB color
+  return `rgb(${red}, ${green}, ${blue})`;
+}
+
+// Example usage:
+// const hexColor = "#7F00FF80"; // 8-digit hex color with alpha
+// const rgbColor = hexToRGB(hexColor);
+// console.log(rgbColor); // Output: "rgb(127, 0, 255)"

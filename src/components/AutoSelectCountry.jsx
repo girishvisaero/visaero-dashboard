@@ -1,4 +1,5 @@
 import { Autocomplete, Group, Image, Text } from "@mantine/core";
+import { IconX } from "@tabler/icons-react";
 import React, { memo, useEffect, useState } from "react";
 
 const AutoSelectCountry = ({
@@ -71,6 +72,8 @@ const AutoSelectCountry = ({
     setValue(dfObj?.name ?? "");
   }, [data, defaultCountryName]);
 
+  let isOpenPopover = false
+
   return (
     <Autocomplete
       maxDropdownHeight={350}
@@ -90,13 +93,14 @@ const AutoSelectCountry = ({
           setValue(countryObj?.name);
         }
       }}
-      onDropdownOpen={() => setValue("")}
+      onFocus={() => setValue("")}
+      // rightSection={!!value && <IconX size={14}  stroke={1.5} onClick={() => setValue('')} />}
       // onOptionSubmit={value => console.log('value', value)}
       label={label}
       placeholder={`Select a ${label}`}
       shadow="md"
       onSelect={handleCountryChange}
-      onChange={setValue}
+      onChange={e =>setValue(e)}
       filter={optionsFilter}
       data={countryData}
     />

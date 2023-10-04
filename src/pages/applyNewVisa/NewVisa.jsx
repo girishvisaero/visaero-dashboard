@@ -76,7 +76,7 @@ const NewVisa = () => {
     setVisaOfferPayload((prev) => ({ ...prev, currency }));
   };
 
-  const isOffersLoading = useCallback((o)=> o,[]) 
+  // const isOffersLoading = useCallback((o)=> o,[]) 
 
   useEffect(() => {
     let curr = ipData?.currency ?? "USD";
@@ -130,7 +130,7 @@ const NewVisa = () => {
           <Paper radius="md" shadow="sm">
             <ScrollArea type="always" offsetScrollbars h={SECTION_HEIGHT}>
               <Grid p={"sm"}>
-                {isOffersLoading ? (
+                {isVisaOfferLoading ? (
                   loadingCards
                 ) : visaOffersData?.length > 0 ? (
                   visaOffersData?.map((obj, i) => (
