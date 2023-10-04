@@ -5,20 +5,18 @@ import {
     Divider,
     Text,
     TextInput,
-    useMantineTheme
+    useMantineTheme,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { hash } from "../../lib/utils";
 import { loginService } from "../../services";
-import { LoginFormSchema } from "../../validations/schema";
+import { ForgotPassSchema } from "../../validations/schema";
 
 const ForgotPassword = ({ handleIsForgotPass }) => {
-  const queryClient = useQueryClient();
-
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const {
@@ -26,19 +24,16 @@ const ForgotPassword = ({ handleIsForgotPass }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(LoginFormSchema),
-    defaultValues: { mobile_no: "9021929562", password: "Smart@123" },
+    resolver: zodResolver(ForgotPassSchema),
+    defaultValues: { email: "girish.chaudhari@visaero.com" },
   });
 
   const { mutate, isLoading } = useMutation(loginService, {
     onSuccess: ({ data }) => {
-      // console.log(data);
       if (data.data === "success") {
-        queryClient.invalidateQueries("permissions");
-        localStorage.setItem("session_id", data.dataobj?.session_id);
-        localStorage.setItem("user_id", data.dataobj?._id);
-        localStorage.setItem("host", data.dataobj?.host);
-        navigate("/");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
       } else {
         notifications.show({
           title: "Error",
@@ -55,9 +50,7 @@ const ForgotPassword = ({ handleIsForgotPass }) => {
     let hash_pass = await hash(data.password);
     data.password = hash_pass;
     data.host = "visaero";
-    // console.log(hash_pass);
     mutate(data);
-    // console.log(data);
   };
   return (
     <Box
@@ -83,15 +76,25 @@ const ForgotPassword = ({ handleIsForgotPass }) => {
         label="Enter Your Email"
         placeholder="Enter Your Email"
         withAsterisk
-        error={errors.mobile_no && errors.mobile_no.message}
+        error={errors.email && errors.email.message}
         mt="md"
-        {...register("mobile_no")}
+        {...register("email")}
       />
 
       <Button loading={isLoading} type="submit" mt="md" fullWidth>
         Submit
       </Button>
-      <Text color="brand" sx={{cursor:'pointer'}} onClick={handleIsForgotPass} align="center" fw={'bold'} fz={'sm'} py='sm'>Login</Text>
+      <Text
+        color="brand"
+        sx={{ cursor: "pointer" }}
+        onClick={handleIsForgotPass}
+        align="center"
+        fw={"bold"}
+        fz={"sm"}
+        py="sm"
+      >
+        Login
+      </Text>
     </Box>
   );
 };

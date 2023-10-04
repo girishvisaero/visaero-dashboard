@@ -3,13 +3,26 @@ import React, { useMemo, useState } from "react";
 import LoginCard from "./LoginCard";
 import ForgotPassword from "./ForgotPassword";
 
-const Login = () => {
-  const [isForgotPass, setIsForgotPass] = useState(true);
+const TIMING_DURATION = 300;
 
-  const handleIsForgotPass = () => setIsForgotPass((prev) => !prev);
+const Login = () => {
+  const [isForgotPass, setIsForgotPass] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const handleIsForgotPass = async () => {
+    if (isLogin) {
+      setIsLogin((prev) => !prev);
+      delay(TIMING_DURATION).then(() => setIsForgotPass((prev) => !prev));
+    } else {
+      setIsForgotPass((prev) => !prev);
+      delay(TIMING_DURATION).then(() => setIsLogin((prev) => !prev));
+    }
+  };
 
   return (
-    <Box sx={{overflow:'hidden'}}>
+    <Box sx={{ overflow: "hidden" }}>
       <Grid m={0} h={"100vh"}>
         <Image
           src="https://cp-vi-stage.visaero.com/static/media/organization_register_bg.2edc1a31.png"
@@ -60,9 +73,9 @@ const Login = () => {
             }}
           >
             <Transition
-              mounted={isForgotPass}
+              mounted={isLogin}
               transition="fade"
-              duration={400}
+              duration={TIMING_DURATION}
               timingFunction="ease"
             >
               {(styles) => (
@@ -72,9 +85,9 @@ const Login = () => {
               )}
             </Transition>
             <Transition
-              mounted={!isForgotPass}
+              mounted={isForgotPass}
               transition="fade"
-              duration={400}
+              duration={TIMING_DURATION}
               timingFunction="ease"
             >
               {(styles) => (

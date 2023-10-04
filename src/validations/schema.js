@@ -12,3 +12,10 @@ export const LoginFormSchema = z.object({
     .max(10, { message: "Mobile number must be 14 characters or less" }),
   password: z.string().nonempty("Password is required"),
 });
+
+export const ForgotPassSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: "This field has to be filled." })
+    .email("This is not a valid email."),
+});
