@@ -7,6 +7,7 @@ export const getNewDashboard = "/visa-admin/getNewDashboardData";
 
 export const verifyAdminUserSession = "/user-admin/verifyAdminUserSession";
 export const login = "/user-admin/login";
+export const forgotPassword = "/user-admin/generateOtpForResetPassword";
 
 export const ipApi = "https://ipapi.co/json/";
 

@@ -1,12 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    Box,
-    Button,
-    Divider,
-    PasswordInput,
-    Text,
-    TextInput,
-    useMantineTheme,
+  Box,
+  Button,
+  Divider,
+  PasswordInput,
+  Text,
+  TextInput,
+  useMantineTheme,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -28,7 +28,10 @@ const LoginCard = ({ handleIsForgotPass }) => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(LoginFormSchema),
-    defaultValues: { mobile_no: "9021929562", password: "Smart@123" },
+    defaultValues: {
+      email: "girish.chaudhari@visaero.com",
+      password: "Smart@123",
+    },
   });
 
   const { mutate, isLoading } = useMutation(loginService, {
@@ -38,7 +41,6 @@ const LoginCard = ({ handleIsForgotPass }) => {
         queryClient.invalidateQueries("permissions");
         localStorage.setItem("session_id", data.dataobj?.session_id);
         localStorage.setItem("user_id", data.dataobj?._id);
-        localStorage.setItem("host", data.dataobj?.host);
         navigate("/");
       } else {
         notifications.show({
@@ -55,7 +57,7 @@ const LoginCard = ({ handleIsForgotPass }) => {
   const onSubmit = async (data) => {
     let hash_pass = await hash(data.password);
     data.password = hash_pass;
-    data.host = "visaero";
+    data.host = localStorage.getItem("host");
     // console.log(hash_pass);
     mutate(data);
     // console.log(data);
@@ -77,12 +79,12 @@ const LoginCard = ({ handleIsForgotPass }) => {
       </Text>
       <Divider my="sm" />
       <TextInput
-        label="Enter Mobile Number"
-        placeholder="Enter Mobile Number"
+        label="Enter Your Email"
+        placeholder="Enter Your Email"
         withAsterisk
-        error={errors.mobile_no && errors.mobile_no.message}
+        error={errors.email && errors.email.message}
         mt="md"
-        {...register("mobile_no")}
+        {...register("email")}
       />
       <PasswordInput
         label="Enter Your Password"

@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    Box,
-    Button,
-    Divider,
-    Text,
-    TextInput,
-    useMantineTheme,
+  Box,
+  Button,
+  Divider,
+  Text,
+  TextInput,
+  useMantineTheme,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useMutation } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { hash } from "../../lib/utils";
-import { loginService } from "../../services";
+import { forgotPassword } from "../../services";
 import { ForgotPassSchema } from "../../validations/schema";
 
 const ForgotPassword = ({ handleIsForgotPass }) => {
@@ -28,7 +28,7 @@ const ForgotPassword = ({ handleIsForgotPass }) => {
     defaultValues: { email: "girish.chaudhari@visaero.com" },
   });
 
-  const { mutate, isLoading } = useMutation(loginService, {
+  const { mutate, isLoading } = useMutation(forgotPassword, {
     onSuccess: ({ data }) => {
       if (data.data === "success") {
         setTimeout(() => {
@@ -47,8 +47,6 @@ const ForgotPassword = ({ handleIsForgotPass }) => {
   });
 
   const onSubmit = async (data) => {
-    let hash_pass = await hash(data.password);
-    data.password = hash_pass;
     data.host = "visaero";
     mutate(data);
   };

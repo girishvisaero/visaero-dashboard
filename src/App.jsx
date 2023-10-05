@@ -1,23 +1,27 @@
 import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
-import React from "react";
+import React, { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 import theme from "./config/theme.js";
 import useNetworkHandler from "./hooks/useNetworkProvider.jsx";
 import { setupTheme } from "./lib/utils.js";
 import router from "./routes/router.jsx";
 import { useEnterpriseAccount } from "./services/globelState.js";
-import "./App.css"
+import "./App.css";
 
 const App = () => {
-  let network = useNetworkHandler();
+  useNetworkHandler();
   const { data } = useEnterpriseAccount();
 
   setupTheme(
     data?.data?.dataobj?.brand_color,
     data?.data?.dataobj?.secondary_color
   );
+
+  useEffect(() => {
+    localStorage.setItem("host", data?.data?.dataobj?.host);
+  }, []);
 
   return (
     <>

@@ -1,6 +1,9 @@
 import axios, { noConfig } from "../config/axios";
 import * as API from "./api";
 
+const host = localStorage.getItem("host");
+let user_id = localStorage.getItem("user_id");
+
 export const getEnterPriseAccount = ({ signal }) => {
   return axios.get(API.getEnterpriseAccountHostDetails, {
     signal,
@@ -13,31 +16,30 @@ export const getEnterPriseAccount = ({ signal }) => {
 
 export const getNewsAndUpdates = ({ signal }) => {
   return axios.post(API.getNewsAndUpdates, {
-    user_id: localStorage.getItem("user_id"),
+    user_id,
   });
 };
 export const getNotifications = ({ signal }) => {
   return axios.get(API.getNotification, {
     signal,
     params: {
-      host: localStorage.getItem("host"),
-      user_id: localStorage.getItem("user_id"),
+      host,
+      user_id,
     },
   });
 };
 
 export const getDashboardData = ({ queryKey }) => {
   const [_, dates] = queryKey;
-  // console.log("querykey", dates);
+
   const start_date = dates[0];
   const end_date = dates[1];
 
   return axios.post(
     API.getNewDashboard,
-    // signal,
     {
-      host: localStorage.getItem("host"),
-      user_id: localStorage.getItem("user_id"),
+      host,
+      user_id,
       start_date,
       end_date,
     }
@@ -46,8 +48,6 @@ export const getDashboardData = ({ queryKey }) => {
 
 export const verifySession = async ({ signal }) => {
   let session_id = localStorage.getItem("session_id");
-  let user_id = localStorage.getItem("user_id");
-  // console.log("session_id", session_id);
   return axios.post(
     API.verifyAdminUserSession,
     {
@@ -63,14 +63,15 @@ export const verifySession = async ({ signal }) => {
 export const loginService = async (data) => {
   return noConfig.post(API.login, data);
 };
+export const forgotPassword = async (data) => {
+  return noConfig.post(API.forgotPassword, data);
+};
 
 export const ipApi = async (data) => {
   return fetch(API.ipApi).then((res) => res.json());
 };
 
 export const getNationalities = async ({ signal }) => {
-  let host = localStorage.getItem("host");
-  // console.log("session_id", session_id);
   return axios.get(API.getNationalities, {
     signal,
     params: {
@@ -79,8 +80,6 @@ export const getNationalities = async ({ signal }) => {
   });
 };
 export const getOrigin = async ({ signal }) => {
-  let host = localStorage.getItem("host");
-  // console.log("session_id", session_id);
   return axios.get(API.getOrigin, {
     signal,
     params: {
@@ -89,8 +88,6 @@ export const getOrigin = async ({ signal }) => {
   });
 };
 export const getSupportedCurrencies = async ({ signal }) => {
-  let host = localStorage.getItem("host");
-  // console.log("session_id", session_id);
   return axios.get(API.getSupportedCurrencies, {
     signal,
     params: {
@@ -100,8 +97,6 @@ export const getSupportedCurrencies = async ({ signal }) => {
 };
 export const getTravellingTo = async ({ queryKey }) => {
   const [_, obj] = queryKey;
-  let host = localStorage.getItem("host");
-  let user_id = localStorage.getItem("user_id");
   const { nationality, origin } = obj;
   // console.log("session_id", session_id);
   return axios.post(API.getTravellingto, {
@@ -113,8 +108,6 @@ export const getTravellingTo = async ({ queryKey }) => {
 };
 export const getVisaOffers = async (data) => {
   // console.log(data)
-  let host = localStorage.getItem("host");
-  let user_id = localStorage.getItem("user_id");
   return axios.post(API.getVisaOffers, {
     ...data,
     host,
