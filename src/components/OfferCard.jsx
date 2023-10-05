@@ -42,22 +42,22 @@ const OfferCard = ({ isSelected, setIsSelected, index, data }) => {
       bg={theme.primaryColor}
       px={"sm"}
       sx={{
-        width: "60%",
+        width: "50%",
         position: "relative",
         color: "#fff",
         fontSize: "0.7rem",
         fontWeight: 400,
-        bottom:7.5,
+        bottom: 7.5,
         "&:before": {
           content: `""`,
-          background: hexToRGB(theme.colors[theme.primaryColor][0] + "40"),
+          background: theme.colors[theme.primaryColor][0],
           position: "absolute",
           width: "15px",
           height: "100%",
           top: "0",
-          right: "0",
-          borderRadius: "100px 0 0 100px",
-          clipPath: "polygon(100% 0,0 50%,100% 100%)",
+          right: "-13px",
+          zIndex: 99,
+          clipPath: "polygon(0% 0%, 100% 0, 50% 50%, 100% 100%, 0% 100%)",
         },
       }}
     >
