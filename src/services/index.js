@@ -9,7 +9,6 @@ export const getEnterPriseAccount = ({ signal }) => {
     signal,
     params: {
       domain_host: window.location.hostname,
-      // domain_host: "cp-att-stage.visaero.com",
     },
   });
 };
@@ -35,19 +34,17 @@ export const getDashboardData = ({ queryKey }) => {
   const start_date = dates[0];
   const end_date = dates[1];
 
-  return axios.post(
-    API.getNewDashboard,
-    {
-      host,
-      user_id,
-      start_date,
-      end_date,
-    }
-  );
+  return axios.post(API.getNewDashboard, {
+    host,
+    user_id,
+    start_date,
+    end_date,
+  });
 };
 
 export const verifySession = async ({ signal }) => {
   let session_id = localStorage.getItem("session_id");
+  user_id = localStorage.getItem("user_id");
   return axios.post(
     API.verifyAdminUserSession,
     {

@@ -20,6 +20,7 @@ import {
 } from "../services/globelState";
 import NetworkError from "../components/NetworkError";
 
+
 const Layout = () => {
   const networkStatus = useNetwork();
 

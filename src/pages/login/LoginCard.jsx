@@ -58,9 +58,7 @@ const LoginCard = ({ handleIsForgotPass }) => {
     let hash_pass = await hash(data.password);
     data.password = hash_pass;
     data.host = localStorage.getItem("host");
-    // console.log(hash_pass);
     mutate(data);
-    // console.log(data);
   };
   return (
     <Box

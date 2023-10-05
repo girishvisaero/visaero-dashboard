@@ -18,10 +18,7 @@ const App = () => {
     data?.data?.dataobj?.brand_color,
     data?.data?.dataobj?.secondary_color
   );
-
-  useEffect(() => {
-    localStorage.setItem("host", data?.data?.dataobj?.host);
-  }, []);
+  localStorage.setItem("host", data?.data?.dataobj?.host);
 
   return (
     <>
