@@ -49,7 +49,7 @@ const OfferCard = ({ isSelected, setIsSelected, index, data }) => {
           top: "0",
           right: "-13px",
           zIndex: 99,
-          clipPath: "polygon(0% 0%, 100% 0, 50% 50%, 100% 100%, 0% 100%)",
+          clipPath: "polygon(0% 0%, 100% 0, 25% 50%, 100% 100%, 0% 100%)",
         },
       }}
     >

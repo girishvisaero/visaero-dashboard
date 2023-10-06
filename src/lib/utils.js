@@ -70,9 +70,8 @@ export const setupTheme = (
         // console.log("element>>", element);
       });
     });
-  } else{
+  } else {
     setupTheme("#f07821", "#663785");
-
   }
 
   isRenderFirst = true;
